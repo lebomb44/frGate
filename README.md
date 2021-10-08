@@ -62,7 +62,8 @@ jeedom@jeedom:~$ sudo vi /etc/nginx/nginx.conf
 #######################################################
 # Check services
 ```shell
-jeedom@jeedom:~$ crontab -e
+jeedom@jeedom:~$ sudo su -
+root@jeedom:~$ crontab -e
 0 * * * * /home/jeedom/frGate/nginx/check-services.sh > /tmp/check-services.log
 ```
 #######################################################
