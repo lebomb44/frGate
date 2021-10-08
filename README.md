@@ -22,7 +22,7 @@ SHELLINABOX_ARGS="--no-beep -t"
 #######################################################
 # Nginx
 ```shell
-jeedom@jeedom:~$ sudo apt install nginx-extras
+jeedom@jeedom:~$ sudo apt install nginx-extras fcgiwrap
 ```
 # Copy the file "default" in this folder
 ```shell
