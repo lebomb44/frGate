@@ -53,6 +53,10 @@ jeedom@jeedom:~$ sudo vi /etc/nginx/nginx.conf
 ```shell
         client_max_body_size 100000M;
         server_tokens off;
+	#access_log /var/log/nginx/access.log;
+	access_log off;
+	#error_log /var/log/nginx/error.log;
+	error_log off;
 ```
 # Reboot
 ```shell
