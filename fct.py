@@ -8,11 +8,9 @@
 from __future__ import print_function
 import time
 import traceback
-from six.moves import urllib
 import requests
 
 import settings
-import alarm
 
 
 def log(msg):
@@ -55,32 +53,3 @@ def send_alert(msg):
     """ Send a global alert (SMS + E-mail) """
     send_sms(msg)
     send_email(msg)
-
-
-def temp_set(node_, cmd_, arg_array_):
-    """ Set temperature """
-    #settings.temp[key] = value
-
-
-def timeout_reset(node_, cmd_, arg_array_):
-    """ Reset timeout to zero """
-    #log("### Reset of " + node_ + " timeout")
-    if settings.node_list[node_].error_cnt > settings.node_list[node_].error_cnt_max:
-        settings.node_list[node_].error_cnt_max = settings.node_list[node_].error_cnt
-    settings.node_list[node_].error_cnt = 0
-    settings.node_list[node_].ping_rx_cnt += 1
-
-
-def nfcTag(node_, cmd_, arg_array_):
-    """ NFC Tag detected """
-    log("WARNING nfcTag: node=" + node_ + ", cmd=" + cmd_ + ", arg=" + str(arg_array_))
-    if node_ == 'entry' and cmd_ == 'nfcTag' and len(arg_array_) == 3:
-        authorized = ['Olivier_Cambon', 'Stephanie_Cambon', 'Ellis_Cambon', 'Key1_Cambon', 'Key2_Cambon']
-        fullname = str(arg_array_[1]) + "_" + str(arg_array_[2])
-        if arg_array_[0] == 'get' and fullname in authorized:
-            if settings.alarm['is_enabled'] is False:
-                if alarm.enable() is True:
-                    http_request(settings.ALARM_NAME_URL + fullname)
-            else:
-                alarm.disable()
-                http_request(settings.ALARM_NAME_URL + fullname)
