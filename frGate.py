@@ -116,24 +116,68 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
                                             elif url_tokens[5] == "off":
                                                 gpio.buzzer_off()
                                                 self.ok200("BUZZER OFF")
+                                            elif url_tokens[5] == "json":
+                                                self.ok200(json.dumps({"buzzer": gpio.buzzer_get()}, sort_keys=True, indent=4), content_type="application/json")
                                             else:
                                                 self.error404("BAD BUZZER")
                                         else:
                                             self.ok200(str(gpio.buzzer_get()))
                                     elif url_tokens[4] == "move0":
-                                        self.ok200(str(gpio.move0_get()))
+                                        if url_tokens_len > 5:
+                                            if url_tokens[5] == "json":
+                                                self.ok200(json.dumps({"move0": gpio.move0_get()}, sort_keys=True, indent=4), content_type="application/json")
+                                            else:
+                                                self.error404("BAD MOVE0")
+                                        else:
+                                            self.ok200(str(gpio.move0_get()))
                                     elif url_tokens[4] == "move1":
-                                        self.ok200(str(gpio.move1_get()))
+                                        if url_tokens_len > 5:
+                                            if url_tokens[5] == "json":
+                                                self.ok200(json.dumps({"move1": gpio.move1_get()}, sort_keys=True, indent=4), content_type="application/json")
+                                            else:
+                                                self.error404("BAD MOVE1")
+                                        else:
+                                            self.ok200(str(gpio.move1_get()))
                                     elif url_tokens[4] == "move2":
-                                        self.ok200(str(gpio.move2_get()))
+                                        if url_tokens_len > 5:
+                                            if url_tokens[5] == "json":
+                                                self.ok200(json.dumps({"move2": gpio.move2_get()}, sort_keys=True, indent=4), content_type="application/json")
+                                            else:
+                                                self.error404("BAD MOVE2")
+                                        else:
+                                            self.ok200(str(gpio.move2_get()))
                                     elif url_tokens[4] == "move3":
-                                        self.ok200(str(gpio.move3_get()))
+                                        if url_tokens_len > 5:
+                                            if url_tokens[5] == "json":
+                                                self.ok200(json.dumps({"move3": gpio.move3_get()}, sort_keys=True, indent=4), content_type="application/json")
+                                            else:
+                                                self.error404("BAD MOVE3")
+                                        else:
+                                            self.ok200(str(gpio.move3_get()))
                                     elif url_tokens[4] == "move4":
-                                        self.ok200(str(gpio.move4_get()))
+                                        if url_tokens_len > 5:
+                                            if url_tokens[5] == "json":
+                                                self.ok200(json.dumps({"move4": gpio.move4_get()}, sort_keys=True, indent=4), content_type="application/json")
+                                            else:
+                                                self.error404("BAD MOVE4")
+                                        else:
+                                            self.ok200(str(gpio.move4_get()))
                                     elif url_tokens[4] == "move5":
-                                        self.ok200(str(gpio.move5_get()))
+                                        if url_tokens_len > 5:
+                                            if url_tokens[5] == "json":
+                                                self.ok200(json.dumps({"move5": gpio.move5_get()}, sort_keys=True, indent=4), content_type="application/json")
+                                            else:
+                                                self.error404("BAD MOVE5")
+                                        else:
+                                            self.ok200(str(gpio.move5_get()))
                                     elif url_tokens[4] == "rack":
-                                        self.ok200(str(gpio.rack_get()))
+                                        if url_tokens_len > 5:
+                                            if url_tokens[5] == "json":
+                                                self.ok200(json.dumps({"rack": gpio.rack_get()}, sort_keys=True, indent=4), content_type="application/json")
+                                            else:
+                                                self.error404("BAD RACK")
+                                        else:
+                                            self.ok200(str(gpio.rack_get()))
                                     elif url_tokens[4] == "light":
                                         if url_tokens_len > 5:
                                             if url_tokens[5] == "on":
@@ -142,8 +186,12 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
                                             elif url_tokens[5] == "off":
                                                 gpio.light_off()
                                                 self.ok200("LIGHT OFF")
+                                            elif url_tokens[5] == "json":
+                                                self.ok200(json.dumps({"light": gpio.light_get()}, sort_keys=True, indent=4), content_type="application/json")
                                             else:
                                                 self.error404("BAD LIGHT")
+                                        else:
+                                            self.ok200(str(gpio.light_get()))
                                     elif url_tokens[4] == "ups0":
                                         if url_tokens_len > 5:
                                             if url_tokens[5] == "on":
@@ -152,8 +200,12 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
                                             elif url_tokens[5] == "off":
                                                 gpio.ups0_off()
                                                 self.ok200("UPS0 OFF")
+                                            elif url_tokens[5] == "json":
+                                                self.ok200(json.dumps({"ups0": gpio.ups0_get()}, sort_keys=True, indent=4), content_type="application/json")
                                             else:
                                                 self.error404("BAD UPS0")
+                                        else:
+                                            self.ok200(str(gpio.ups0_get()))
                                     elif url_tokens[4] == "ups1":
                                         if url_tokens_len > 5:
                                             if url_tokens[5] == "on":
@@ -162,8 +214,12 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
                                             elif url_tokens[5] == "off":
                                                 gpio.ups1_off()
                                                 self.ok200("UPS1 OFF")
+                                            elif url_tokens[5] == "json":
+                                                self.ok200(json.dumps({"ups1": gpio.ups1_get()}, sort_keys=True, indent=4), content_type="application/json")
                                             else:
                                                 self.error404("BAD UPS1")
+                                        else:
+                                            self.ok200(str(gpio.ups1_get()))
                                     elif url_tokens[4] == "ups2":
                                         if url_tokens_len > 5:
                                             if url_tokens[5] == "on":
@@ -172,8 +228,16 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
                                             elif url_tokens[5] == "off":
                                                 gpio.ups2_off()
                                                 self.ok200("UPS2 OFF")
+                                            elif url_tokens[5] == "json":
+                                                self.ok200(json.dumps({"ups2": gpio.ups2_get()}, sort_keys=True, indent=4), content_type="application/json")
                                             else:
                                                 self.error404("BAD UPS2")
+                                        else:
+                                            self.ok200(str(gpio.ups2_get()))
+                                    else:
+                                        self.error404("BAD GPIO")
+                                else:
+                                    self.ok200("GPIO TEXT")
                             elif url_tokens[3] == "json":
                                 try:
                                     token_nbs = range(4, url_tokens_len)
