@@ -10,6 +10,7 @@ import copy
 
 import fct
 import gpio
+import alarm
 
 
 HTTPD_PORT = 8444
@@ -44,6 +45,12 @@ def run():
         flog = open("/dev/shm/lbGate.settings", "w")
         msg = "###########################\n"
         msg = msg + "### " + time.strftime('%Y/%m/%d %H:%M:%S') + " ###\n"
+        msg = msg + "ALARM: enabled: " + str(alarm.is_enabled()) + " triggered: " + str(alarm.is_triggered()) + " timeout: " + str(alarm.timeout_get()) + " stopped: " + str(alarm.is_stopped()) + " sum: " + str(alarm.sum()) + "\n"
+        msg = msg + "GPIO: buzzer: " + str(gpio.buzzer_get()) + "\n"
+        msg = msg + "      move0: " + str(gpio.move0_get()) + " move1: " + str(gpio.move1_get()) + " move2: " + str(gpio.move2_get()) + "\n"
+        msg = msg + "      move3: " + str(gpio.move3_get()) + " move4: " + str(gpio.move4_get()) + " move5: " + str(gpio.move5_get()) + "\n"
+        msg = msg + "      rack: " + str(gpio.rack_get()) + " light: " + str(gpio.light_get()) + "\n"
+        msg = msg + "      ups0: " + str(gpio.ups0_get()) + " ups1: " + str(gpio.ups1_get()) + " ups2: " + str(gpio.ups2_get()) + "\n"
         msg = msg + "- run_loop = " + str(run_loop) + "\n"
         log_msg = msg
         flog.write(msg)
