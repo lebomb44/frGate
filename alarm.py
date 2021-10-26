@@ -11,15 +11,32 @@ import time
 import fct
 import gpio
 
+alarm_is_enabled = False
+alarm_triggered = False
+alarm_timeout = 0
+alarm_stopped = False
+alarm_sum = False
+
 def init():
+    global alarm_is_enabled
+    global alarm_triggered
+    global alarm_timeout
+    global alarm_stopped
+    global alarm_sum
     alarm_is_enabled = False
     alarm_triggered = False
     alarm_timeout = 0
     alarm_stopped = False
+    alram_sum = False
     gpio.buzzer_off()
     gpio.light_off()
 
 def run():
+    global alarm_is_enabled
+    global alarm_triggered
+    global alarm_timeout
+    global alarm_stopped
+    global alarm_sum
     """
         Cycle execution to poll on sensors
     """
@@ -52,6 +69,7 @@ def run():
 
 
 def enable():
+    global alarm_is_enabled
     init()
     alarm_is_enabled = True
     gpio.light_on()
@@ -59,3 +77,28 @@ def enable():
 
 def disable():
     init()
+
+
+def is_enabled():
+    global alarm_is_enabled
+    return alarm_is_enabled
+
+
+def is_triggered():
+    global alarm_triggered
+    return alarm_triggered
+
+
+def timeout_get():
+    global alarm_timeout
+    return alarm_timeout
+
+
+def is_stopped():
+    global alarm_stopped
+    return alarm_stopped
+
+
+def sum():
+    global alarm_sum
+    return alarm_sum
