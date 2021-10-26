@@ -101,12 +101,79 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
                                         except:
                                             self.error404("Bad path in 'alarm'")
                                 else:
-                                    self.ok200("Alarm is = " + str(settings.alarm['is_enabled']) +
-                                               "\nTrigger = " + str(settings.alarm['triggered']) +
-                                               "\nTimer = " + str(settings.alarm['timeout']) +
-                                               "\nStop = " + str(settings.alarm['stopped']))
-                            elif url_tokens[3] == "node":
-                                self.ok200(str(settings.node_list))
+                                    self.ok200("Alarm is = " + str(alarm.is_enabled()) +
+                                               "\nTrigger = " + str(alarm.is_triggered()) +
+                                               "\nTimer = " + str(alarm.timeout_get()) +
+                                               "\nStop = " + str(alarm.is_stopped()) +
+                                               "\nSum = " + str(alarm.sum()))
+                            elif url_tokens[3] == "gpio":
+                                if url_tokens_len > 4:
+                                    if url_tokens[4] == "buzzer":
+                                        if url_tokens_len > 5:
+                                            if url_tokens[5] == "on":
+                                                gpio.buzzer_on()
+                                                self.ok200("BUZZER ON")
+                                            elif url_tokens[5] == "off":
+                                                gpio.buzzer_off()
+                                                self.ok200("BUZZER OFF")
+                                            else:
+                                                self.error404("BAD BUZZER")
+                                        else:
+                                            self.ok200(str(gpio.buzzer_get()))
+                                    elif url_tokens[4] == "move0":
+                                        self.ok200(str(gpio.move0_get()))
+                                    elif url_tokens[4] == "move1":
+                                        self.ok200(str(gpio.move1_get()))
+                                    elif url_tokens[4] == "move2":
+                                        self.ok200(str(gpio.move2_get()))
+                                    elif url_tokens[4] == "move3":
+                                        self.ok200(str(gpio.move3_get()))
+                                    elif url_tokens[4] == "move4":
+                                        self.ok200(str(gpio.move4_get()))
+                                    elif url_tokens[4] == "move5":
+                                        self.ok200(str(gpio.move5_get()))
+                                    elif url_tokens[4] == "rack":
+                                        self.ok200(str(gpio.rack_get()))
+                                    elif url_tokens[4] == "light":
+                                        if url_tokens_len > 5:
+                                            if url_tokens[5] == "on":
+                                                gpio.light_on()
+                                                self.ok200("LIGHT ON")
+                                            elif url_tokens[5] == "off":
+                                                gpio.light_off()
+                                                self.ok200("LIGHT OFF")
+                                            else:
+                                                self.error404("BAD LIGHT")
+                                    elif url_tokens[4] == "ups0":
+                                        if url_tokens_len > 5:
+                                            if url_tokens[5] == "on":
+                                                gpio.ups0_on()
+                                                self.ok200("UPS0 ON")
+                                            elif url_tokens[5] == "off":
+                                                gpio.ups0_off()
+                                                self.ok200("UPS0 OFF")
+                                            else:
+                                                self.error404("BAD UPS0")
+                                    elif url_tokens[4] == "ups1":
+                                        if url_tokens_len > 5:
+                                            if url_tokens[5] == "on":
+                                                gpio.ups1_on()
+                                                self.ok200("UPS1 ON")
+                                            elif url_tokens[5] == "off":
+                                                gpio.ups1_off()
+                                                self.ok200("UPS1 OFF")
+                                            else:
+                                                self.error404("BAD UPS1")
+                                    elif url_tokens[4] == "ups2":
+                                        if url_tokens_len > 5:
+                                            if url_tokens[5] == "on":
+                                                gpio.ups2_on()
+                                                self.ok200("UPS2 ON")
+                                            elif url_tokens[5] == "off":
+                                                gpio.ups2_off()
+                                                self.ok200("UPS2 OFF")
+                                            else:
+                                                self.error404("BAD UPS2")
                             elif url_tokens[3] == "json":
                                 try:
                                     token_nbs = range(4, url_tokens_len)
