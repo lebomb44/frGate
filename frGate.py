@@ -87,19 +87,14 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
                                 if url_tokens_len > 4:
                                     if url_tokens[4] == "enable":
                                         alarm.enable()
-                                        self.ok200("Alarm is enabled: ")
+                                        self.ok200("ALARM ENABLED")
                                     elif url_tokens[4] == "disable":
                                         alarm.disable()
-                                        self.ok200("Alarm is disabled")
+                                        self.ok200("ALARM DISABLED")
+                                    elif url_tokens[5] == "json":
+                                        self.ok200(json.dumps({"enabled": alarm.is_enabled(), "triggered": alarm.is_triggered(), "timeout": alarm.timeout_get(), "stopped": alarm.is_stopped(), "sum": alarm.sum()}, sort_keys=True, indent=4), content_type="application/json")
                                     else:
-                                        try:
-                                            token_nbs = range(5, url_tokens_len)
-                                            node_point = settings.alarm
-                                            for token_index in token_nbs:
-                                                node_point = node_point[url_tokens[token_index]]
-                                            self.ok200(json.dumps(node_point, sort_keys=True, indent=4), content_type="application/json")
-                                        except:
-                                            self.error404("Bad path in 'alarm'")
+                                        self.error404("BAD ALARM")
                                 else:
                                     self.ok200("Alarm is = " + str(alarm.is_enabled()) +
                                                "\nTrigger = " + str(alarm.is_triggered()) +
@@ -234,23 +229,28 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
                                                 self.error404("BAD UPS2")
                                         else:
                                             self.ok200(str(gpio.ups2_get()))
+                                    elif url_tokens[4] == "json":
+                                        self.ok200(json.dumps({"buzzer": gpio.buzzer_get(),
+                                                               "move0": gpio.move0_get(), "move1": gpio.move1_get(), "move2": gpio.move2_get(), "move3": gpio.move3_get(), "move4": gpio.move4_get(), "move5": gpio.move5_get()},
+                                                               "rack": gpio.rack_get(), "light": gpio.light_get(),
+                                                               "ups0": gpio.ups0_get(), "ups1": gpio.ups1_get(), "ups2": gpio.ups2_get(), 
+                                                               sort_keys=True, indent=4), content_type="application/json")
                                     else:
                                         self.error404("BAD GPIO")
                                 else:
                                     self.ok200("GPIO TEXT")
-                            elif url_tokens[3] == "json":
-                                try:
-                                    token_nbs = range(4, url_tokens_len)
-                                    node_point = settings.acq
-                                    for token_index in token_nbs:
-                                        node_point = node_point[url_tokens[token_index]]
-                                    self.ok200(json.dumps(node_point, sort_keys=True, indent=4), content_type="application/json")
-                                except:
-                                    self.error404("Bad path in 'acq'")
                             elif url_tokens[3] == "sendsms":
                                 if url_tokens_len > 4:
                                     self.ok200("Sending SMS: " + url_tokens[4])
                                     fct.send_sms(url_tokens[4])
+                            elif url_tokens[3] == "json":
+                                self.ok200(json.dumps({"alarm": {"enabled": alarm.is_enabled(), "triggered": alarm.is_triggered(), "timeout": alarm.timeout_get(), "stopped": alarm.is_stopped(), "sum": alarm.sum()},
+                                                       "gpio": {"buzzer": gpio.buzzer_get(),
+                                                                "move0": gpio.move0_get(), "move1": gpio.move1_get(), "move2": gpio.move2_get(), "move3": gpio.move3_get(), "move4": gpio.move4_get(), "move5": gpio.move5_get()},
+                                                                "rack": gpio.rack_get(), "light": gpio.light_get(),
+                                                                "ups0": gpio.ups0_get(), "ups1": gpio.ups1_get(), "ups2": gpio.ups2_get()},
+                                                      },
+                                                      sort_keys=True, indent=4), content_type="application/json")
                             else:
                                 self.error404("Bad command for node " + node + ": " + url_tokens[3])
                         else:
