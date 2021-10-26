@@ -1,17 +1,17 @@
 import RPi.GPIO as GPIO
 
-BUZZER_PIN = 1
-MOVE0_PIN = 2
-MOVE1_PIN = 3
-MOVE2_PIN = 4
-MOVE3_PIN = 5
-MOVE4_PIN = 6
-MOVE5_PIN = 7
-RACK_PIN = 8
-LIGHT_PIN = 9
-UPS0_PIN = 10
-UPS1_PIN = 11
-UPS2_PIN = 12
+BUZZER_PIN = 15
+MOVE0_PIN = 24
+MOVE1_PIN = 23
+MOVE2_PIN = 35
+MOVE3_PIN = 37
+MOVE4_PIN = 38
+MOVE5_PIN = 36
+RACK_PIN = 19
+LIGHT_PIN = 18
+UPS0_PIN = 29
+UPS1_PIN = 26
+UPS2_PIN = 32
 
 
 def init():
@@ -58,7 +58,7 @@ def buzzer_off():
 
 def buzzer_get():
     global BUZZER_PIN
-    GPIO.input(BUZZER_PIN)
+    return GPIO.input(BUZZER_PIN)
 
 def move0_get():
     global MOVE0_PIN
@@ -98,7 +98,7 @@ def light_off():
 
 def light_get():
     global LIGHT_PIN
-    GPIO.input(LIGHT_PIN)
+    return GPIO.input(LIGHT_PIN)
 
 def ups0_on():
     global UPS0_PIN
@@ -110,7 +110,7 @@ def ups0_off():
 
 def ups0_get():
     global UPS0_PIN
-    GPIO.input(UPS0_PIN)
+    return GPIO.input(UPS0_PIN)
 
 def ups1_on():
     global UPS1_PIN
@@ -122,7 +122,7 @@ def ups1_off():
 
 def ups1_get():
     global UPS1_PIN
-    GPIO.input(UPS1_PIN)
+    return GPIO.input(UPS1_PIN)
 
 def ups2_on():
     global UPS2_PIN
@@ -134,4 +134,4 @@ def ups2_off():
 
 def ups2_get():
     global UPS2_PIN
-    GPIO.input(UPS2_PIN)
+    return GPIO.input(UPS2_PIN)
