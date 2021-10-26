@@ -15,6 +15,18 @@ UPS2_PIN = 12
 
 
 def init():
+    global BUZZER_PIN
+    global MOVE0_PIN
+    global MOVE1_PIN
+    global MOVE2_PIN
+    global MOVE3_PIN
+    global MOVE4_PIN
+    global MOVE5_PIN
+    global RACK_PIN
+    global LIGHT_PIN
+    global UPS0_PIN
+    global UPS1_PIN
+    global UPS2_PIN
     GPIO.setmode(GPIO.BOARD)
     GPIO.setwarnings(False)
     GPIO.setup(BUZZER_PIN, GPIO.OUT)
@@ -39,52 +51,69 @@ def init():
 
 
 def buzzer_on():
+    global BUZZER_PIN
     GPIO.output(BUZZER_PIN, GPIO.HIGH)
 
 def buzzer_off():
+    global BUZZER_PIN
     GPIO.output(BUZZER_PIN, GPIO.LOW)
 
 def move0_get():
+    global MOVE0_PIN
     return GPIO.input(MOVE0_PIN)
 
 def move1_get():
-    return GPIO.input(MOVE0_PIN)
+    global MOVE1_PIN
+    return GPIO.input(MOVE1_PIN)
 
 def move2_get():
-    return GPIO.input(MOVE0_PIN)
+    global MOVE2_PIN
+    return GPIO.input(MOVE2_PIN)
 
 def move3_get():
-    return GPIO.input(MOVE0_PIN)
+    global MOVE3_PIN
+    return GPIO.input(MOVE3_PIN)
 
 def move4_get():
-    return GPIO.input(MOVE0_PIN)
+    global MOVE4_PIN
+    return GPIO.input(MOVE4_PIN)
 
 def move5_get():
-    return GPIO.input(MOVE0_PIN)
+    global MOVE5_PIN
+    return GPIO.input(MOVE5_PIN)
 
 def rack_get():
+    global RACK_PIN
     return GPIO.input(RACK_PIN)
 
 def light_on():
+    global LIGHT_PIN
     GPIO.output(LIGHT_PIN, GPIO.HIGH)
 
 def light_off():
+    global LIGHT_PIN
     GPIO.output(LIGHT_PIN, GPIO.LOW)
 
 def ups0_on():
+    global UPS0_PIN
     GPIO.output(UPS0_PIN, GPIO.HIGH)
 
 def ups0_off():
+    global UPS0_PIN
     GPIO.output(UPS0_PIN, GPIO.LOW)
 
 def ups1_on():
+    global UPS1_PIN
     GPIO.output(UPS1_PIN, GPIO.HIGH)
 
 def ups1_off():
+    global UPS1_PIN
     GPIO.output(UPS1_PIN, GPIO.LOW)
 
 def ups2_on():
+    global UPS2_PIN
     GPIO.output(UPS2_PIN, GPIO.HIGH)
 
 def ups2_off():
+    global UPS2_PIN
     GPIO.output(UPS2_PIN, GPIO.LOW)
