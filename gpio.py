@@ -46,8 +46,6 @@ def init():
     ups1_off()
     GPIO.setup(UPS2_PIN, GPIO.OUT)
     ups2_off()
-    GPIO.setup(UPS3_PIN, GPIO.OUT)
-    ups3_off()
 
 
 def buzzer_on():
