@@ -58,6 +58,10 @@ def buzzer_off():
     global BUZZER_PIN
     GPIO.output(BUZZER_PIN, GPIO.LOW)
 
+def buzzer_get():
+    global BUZZER_PIN
+    GPIO.input(BUZZER_PIN)
+
 def move0_get():
     global MOVE0_PIN
     return GPIO.input(MOVE0_PIN)
@@ -94,6 +98,10 @@ def light_off():
     global LIGHT_PIN
     GPIO.output(LIGHT_PIN, GPIO.LOW)
 
+def light_get():
+    global LIGHT_PIN
+    GPIO.input(LIGHT_PIN)
+
 def ups0_on():
     global UPS0_PIN
     GPIO.output(UPS0_PIN, GPIO.HIGH)
@@ -101,6 +109,10 @@ def ups0_on():
 def ups0_off():
     global UPS0_PIN
     GPIO.output(UPS0_PIN, GPIO.LOW)
+
+def ups0_get():
+    global UPS0_PIN
+    GPIO.input(UPS0_PIN)
 
 def ups1_on():
     global UPS1_PIN
@@ -110,6 +122,10 @@ def ups1_off():
     global UPS1_PIN
     GPIO.output(UPS1_PIN, GPIO.LOW)
 
+def ups1_get():
+    global UPS1_PIN
+    GPIO.input(UPS1_PIN)
+
 def ups2_on():
     global UPS2_PIN
     GPIO.output(UPS2_PIN, GPIO.HIGH)
@@ -117,3 +133,7 @@ def ups2_on():
 def ups2_off():
     global UPS2_PIN
     GPIO.output(UPS2_PIN, GPIO.LOW)
+
+def ups2_get():
+    global UPS2_PIN
+    GPIO.input(UPS2_PIN)
