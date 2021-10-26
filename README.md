@@ -67,6 +67,15 @@ root@jeedom:~$ crontab -e
 0 * * * * /home/jeedom/frGate/nginx/check-services.sh > /tmp/check-services.log
 ```
 #######################################################
+# Install lbGate
+```shell
+jeedom@frdom:~/frGate/service $ sudo cp lbGate /etc/init.d/.
+jeedom@frdom:~/frGate/service $ sudo update-rc.d lbGate defaults
+jeedom@frdom:~/frGate/service $ cd
+jeedom@frdom:~ $ ln -s /home/jeedom/frGate/lbGate.py lbGate.py
+```
+#######################################################
 # Reboot
 ```shell
 jeedom@jeedom:/etc/nginx$ sudo reboot
+```
