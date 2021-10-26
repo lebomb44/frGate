@@ -41,7 +41,7 @@ def run():
     global run_loop
     global log_msg
     try:
-        flog = open("/dev/shm/frGate.settings", "w")
+        flog = open("/dev/shm/lbGate.settings", "w")
         msg = "###########################\n"
         msg = msg + "### " + time.strftime('%Y/%m/%d %H:%M:%S') + " ###\n"
         msg = msg + "- run_loop = " + str(run_loop) + "\n"
