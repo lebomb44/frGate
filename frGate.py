@@ -12,10 +12,10 @@ import sys
 import time
 import json
 
+import gpio
 import settings
 import fct
 import alarm
-import move
 
 class Monitoring(threading.Thread):
     """ Monitoring class """
@@ -30,7 +30,6 @@ class Monitoring(threading.Thread):
             #fct.log("DEBUG: Monitoring loop " + str(loop_nb))
             if loop_nb % 10 == 0:
                 alarm.run()
-                move.run()
                 settings.run()
             loop_nb += 1
             if loop_nb >= 1000000:
@@ -82,17 +81,7 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
             if api == "api":
                 if url_tokens_len > 2:
                     node = url_tokens[2]
-                    if node in settings.node_list:
-                        if url_tokens_len > 3:
-                            cmd = url_tokens[3]
-                            if url_tokens_len > 4:
-                                for token in url_tokens[4:]:
-                                    cmd = cmd + " " + token
-                            settings.node_list[node].write(cmd)
-                            self.ok200(node + " " + cmd)
-                        else:
-                            self.error404("No command for node: " + node)
-                    elif node == "lbgate":
+                    if node == "lbgate":
                         if url_tokens_len > 3:
                             if url_tokens[3] == "alarm":
                                 if url_tokens_len > 4:
@@ -116,18 +105,6 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
                                                "\nTrigger = " + str(settings.alarm['triggered']) +
                                                "\nTimer = " + str(settings.alarm['timeout']) +
                                                "\nStop = " + str(settings.alarm['stopped']))
-                            elif url_tokens[3] == "move":
-                                if url_tokens_len > 4:
-                                    if url_tokens[4] == "enable":
-                                        settings.move_is_enabled = True
-                                        self.ok200("Move is enabled")
-                                    elif url_tokens[4] == "disable":
-                                        settings.move_is_enabled = False
-                                        self.ok200("Move is disabled")
-                                    else:
-                                        self.ok200("Move is enabled = " + str(settings.move_is_enabled) + "\nMove = ")
-                                else:
-                                    self.ok200("Move is enabled = " + str(settings.move_is_enabled) + "\nMove = ")
                             elif url_tokens[3] == "node":
                                 self.ok200(str(settings.node_list))
                             elif url_tokens[3] == "json":
@@ -158,17 +135,15 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
 
 
 monitoring = Monitoring("Monitoring")
-http2serial = http.server.HTTPServer(("", settings.HTTPD_PORT), CustomHandler)
+httpserver = http.server.HTTPServer(("", settings.HTTPD_PORT), CustomHandler)
 
 
 def exit():
     """ Stop HTTP server, stop serial threads and monitoring thread """
-    global http2serial
     global monitoring
+    global httpserver
     fct.log("Stopping HTTP server")
-    http2serial.server_close()
-    for key_node, value_node in settings.node_list.items():
-        value_node.stop()
+    httpserver.server_close()
     monitoring.stop()
     time.sleep(2.0)
 
@@ -182,12 +157,12 @@ def signal_term_handler(signal_, frame_):
 
 if __name__ == '__main__':
     signal.signal(signal.SIGTERM, signal_term_handler)
+    gpio.init()
+    alarm.init()
     monitoring.start()
-    for key, value in settings.node_list.items():
-        value.start()
     fct.log("Serving at port " + str(settings.HTTPD_PORT))
     try:
-        http2serial.serve_forever()
+        httpserver.serve_forever()
     except KeyboardInterrupt:
         exit()
 
