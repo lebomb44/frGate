@@ -75,7 +75,19 @@ jeedom@frdom:~/frGate/service $ cd
 jeedom@frdom:~ $ ln -s /home/jeedom/frGate/lbGate.py lbGate.py
 ```
 #######################################################
+# Static IP
+```shell
+jeedom@frdom:~/frGate $ sudo vi /etc/dhcpcd.conf
+# Example static IP configuration:
+interface eth0
+static ip_address=192.168.10.4/24
+#static ip6_address=fd51:42f8:caae:d92e::ff/64
+static routers=192.168.10.1
+static domain_name_servers=8.8.8.8
+```
+#######################################################
 # Reboot
 ```shell
 jeedom@jeedom:/etc/nginx$ sudo reboot
 ```
+#######################################################
