@@ -12,6 +12,7 @@ import fct
 import gpio
 
 alarm_is_enabled = False
+alarm_is_enabled_by_hw = False
 alarm_triggered = False
 alarm_timeout = 0
 alarm_stopped = False
@@ -19,11 +20,13 @@ alarm_sum = False
 
 def init():
     global alarm_is_enabled
+    global alarm_is_enabled_by_hw
     global alarm_triggered
     global alarm_timeout
     global alarm_stopped
     global alarm_sum
     alarm_is_enabled = False
+    alarm_is_enabled_by_hw = gpio.rf_get()
     alarm_triggered = False
     alarm_timeout = 0
     alarm_stopped = False
@@ -33,6 +36,7 @@ def init():
 
 def run():
     global alarm_is_enabled
+    global alarm_is_enabled_by_hw
     global alarm_triggered
     global alarm_timeout
     global alarm_stopped
@@ -40,6 +44,13 @@ def run():
     """
         Cycle execution to poll on sensors
     """
+    if alarm_is_enabled_by_hw != gpio.rf_get():
+        alarm_is_enabled = gpio.rf_get()
+        alarm_is_enabled_by_hw = alarm_is_enabled
+        if alarm_is_enabled == True:
+            enable()
+        else:
+            disable()
     try:
         alarm_sum = gpio.move0_get() & gpio.move1_get() & gpio.move2_get() & gpio.move3_get() & gpio.move4_get() & gpio.move5_get()
         if alarm_is_enabled is True:
@@ -82,6 +93,11 @@ def disable():
 def is_enabled():
     global alarm_is_enabled
     return alarm_is_enabled
+
+
+def is_enabled_by_hw():
+    global alarm_is_enabled_by_hw
+    return alarm_is_enabled_by_hw
 
 
 def is_triggered():

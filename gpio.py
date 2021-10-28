@@ -7,12 +7,16 @@ MOVE2_PIN = 35
 MOVE3_PIN = 37
 MOVE4_PIN = 38
 MOVE5_PIN = 36
+MOVE6_PIN = 40
+MOVE7_PIN = 24
 RACK_PIN = 19
 LIGHT_PIN = 18
 UPS0_PIN = 29
 UPS1_PIN = 26
 UPS2_PIN = 32
-
+RF_PIN = 12
+TX_PIN = 8
+RX_PIN = 10
 
 def init():
     global BUZZER_PIN
@@ -22,11 +26,14 @@ def init():
     global MOVE3_PIN
     global MOVE4_PIN
     global MOVE5_PIN
+    global MOVE6_PIN
+    global MOVE7_PIN
     global RACK_PIN
     global LIGHT_PIN
     global UPS0_PIN
     global UPS1_PIN
     global UPS2_PIN
+    global RF_PIN
     GPIO.setmode(GPIO.BOARD)
     GPIO.setwarnings(False)
     GPIO.setup(BUZZER_PIN, GPIO.OUT)
@@ -37,6 +44,8 @@ def init():
     GPIO.setup(MOVE3_PIN, GPIO.IN)
     GPIO.setup(MOVE4_PIN, GPIO.IN)
     GPIO.setup(MOVE5_PIN, GPIO.IN)
+    GPIO.setup(MOVE6_PIN, GPIO.IN)
+    GPIO.setup(MOVE7_PIN, GPIO.IN)
     GPIO.setup(RACK_PIN, GPIO.IN)
     GPIO.setup(LIGHT_PIN, GPIO.OUT)
     light_off()
@@ -46,6 +55,7 @@ def init():
     ups1_off()
     GPIO.setup(UPS2_PIN, GPIO.OUT)
     ups2_off()
+    GPIO.setup(RF_PIN, GPIO.IN)
 
 
 def buzzer_on():
@@ -83,6 +93,14 @@ def move4_get():
 def move5_get():
     global MOVE5_PIN
     return bool(GPIO.input(MOVE5_PIN))
+
+def move6_get():
+    global MOVE6_PIN
+    return bool(GPIO.input(MOVE6_PIN))
+
+def move7_get():
+    global MOVE7_PIN
+    return bool(GPIO.input(MOVE7_PIN))
 
 def rack_get():
     global RACK_PIN
@@ -135,3 +153,7 @@ def ups2_off():
 def ups2_get():
     global UPS2_PIN
     return bool(GPIO.input(UPS2_PIN))
+
+def rf_get():
+    global RF_PIN
+    return bool(GPIO.input(RF_PIN))

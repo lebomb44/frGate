@@ -49,7 +49,8 @@ def run():
         msg = msg + "GPIO: buzzer: " + str(gpio.buzzer_get()) + "\n"
         msg = msg + "      move0: " + str(gpio.move0_get()) + " move1: " + str(gpio.move1_get()) + " move2: " + str(gpio.move2_get()) + "\n"
         msg = msg + "      move3: " + str(gpio.move3_get()) + " move4: " + str(gpio.move4_get()) + " move5: " + str(gpio.move5_get()) + "\n"
-        msg = msg + "      rack: " + str(gpio.rack_get()) + " light: " + str(gpio.light_get()) + "\n"
+        msg = msg + "      move6: " + str(gpio.move6_get()) + " move7: " + str(gpio.move7_get()) + "\n"
+        msg = msg + "      rack: " + str(gpio.rack_get()) + " light: " + str(gpio.light_get()) + " rf: " + str(gpio.rf_get()) + "\n"
         msg = msg + "      ups0: " + str(gpio.ups0_get()) + " ups1: " + str(gpio.ups1_get()) + " ups2: " + str(gpio.ups2_get()) + "\n"
         msg = msg + "- run_loop = " + str(run_loop) + "\n"
         log_msg = msg
