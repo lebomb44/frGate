@@ -6,7 +6,7 @@ jeedom@jeedom:~$ sudo apt update
 #######################################################
 # Shell In A Box
 ```shell
-jeedom@osjeedom:~$ sudo apt install shellinabox
+jeedom@jeedom:~$ sudo apt install shellinabox
 ```
 ## Edit the file 
 ```shell
@@ -18,6 +18,15 @@ SHELLINABOX_ARGS="--no-beep -t"
 ```
 ## Reboot to test that the service a started and listen on port 4200
 ## Open a web navigator on port 4200
+
+#######################################################
+# Change Apache2 default ports
+```shell
+jeedom@osjeedom:~$ sudo vi /etc/apache2/ports.conf
+Listen 8080
+Listen 444
+Listen 444
+```
 
 #######################################################
 # Nginx
