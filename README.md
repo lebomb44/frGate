@@ -82,6 +82,7 @@ root@jeedom:~$ crontab -e
 jeedom@frdom:~/frGate/service $ sudo cp lbGate /etc/init.d/.
 jeedom@frdom:~/frGate/service $ sudo update-rc.d lbGate defaults
 jeedom@frdom:~/frGate/service $ cd
+jeedom@frdom:~ $ sudo apt install rpi.gpio
 jeedom@frdom:~ $ ln -s /home/jeedom/frGate/lbGate.py lbGate.py
 ```
 #######################################################
