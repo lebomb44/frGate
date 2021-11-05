@@ -40,7 +40,6 @@ jeedom@jeedom:~$ sudo apt install nginx-extras fcgiwrap
 jeedom@jeedom:~$ cd /etc/nginx/sites-available/
 ```
 ## Create html folder
-## Copy the file "default" in this folder
 ```shell
 jeedom@jeedom:/etc/nginx/html$ cd /etc/nginx/
 jeedom@jeedom:/etc/nginx$ sudo mkdir html
