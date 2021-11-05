@@ -1,6 +1,7 @@
 # Update the operating system
 ```
 jeedom@jeedom:~$ sudo apt update
+jeedom@jeedom:~$ sudo apt full-upgrade
 ```
 
 #######################################################
@@ -11,6 +12,7 @@ jeedom@jeedom:~$ sudo apt install shellinabox
 ## Edit the file 
 ```shell
 jeedom@jeedom:~$ sudo vi /etc/default/shellinabox
+jeedom@jeedom:~$ sudo /etc/init.d/shellinabox stop
 ```
 ## Add a "-t" at the end of the last line:
 ```shell
