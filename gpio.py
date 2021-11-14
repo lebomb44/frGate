@@ -1,5 +1,30 @@
 import RPi.GPIO as GPIO
 
+######################################################### 
+##                 Pin header allocation               ##
+######################################################### 
+# |      3V3 |      3V3 |  1 |  2 | 5V       | 5V       |
+# |          |    GPIO2 |  3 |  4 | 5V       | 5V       |
+# |          |    GPIO3 |  5 |  6 | Ground   | GND      |
+# |          |    GPIO4 |  7 |  8 | GPIO14   | TX       |
+# |      GND |   Ground |  9 | 10 | GPIO15   | RX       |
+# |    UPS 2 |   GPIO17 | 11 | 12 | GPIO18   |          |
+# |    UPS 0 |   GPIO27 | 13 | 14 | Ground   | GND      |
+# |    UPS 1 |   GPIO22 | 15 | 16 | GPIO23   | UPS In   |
+# |      3V3 |      3V3 | 17 | 18 | GPIO24   | Move 1   |
+# |   Buzzer |   GPIO10 | 19 | 20 | Ground   | GND      |
+# |          |    GPIO9 | 21 | 22 | GPIO25   | Rack     |
+# |    Light |   GPIO11 | 23 | 24 | GPIO8    | Move 0   |
+# |      GND |   Ground | 25 | 26 | GPIO7    | RF       |
+# |          |    ID_SD | 27 | 28 | ID_SC    |          |
+# |          |    GPIO5 | 29 | 30 | Ground   | GND      |
+# |          |    GPIO6 | 31 | 32 | GPIO12   | Move 5   |
+# |          |   GPIO13 | 33 | 34 | Ground   | GND      |
+# |   Move 7 |   GPIO19 | 35 | 36 | GPIO16   | Move 4   |
+# |   Move 6 |   GPIO26 | 37 | 38 | GPIO20   | Move 3   |
+# |      GND |   Ground | 39 | 40 | GPIO21   | Move 2   |
+######################################################### 
+
 BUZZER_PIN = 19
 MOVE0_PIN = 24
 MOVE1_PIN = 18
