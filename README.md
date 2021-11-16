@@ -99,6 +99,10 @@ static domain_name_servers=8.8.8.8
 #######################################################
 # Reboot
 ```shell
-jeedom@jeedom:/etc/nginx$ sudo reboot
+jeedom@frdom:~ $ sudo reboot
 ```
 #######################################################
+# Read DS18B20 temperature
+```shell
+jeedom@frdom:~ $ find /sys/bus/w1/devices/ -name "28-*" -exec cat {}/w1_slave \; | grep "t=" | awk -F "t=" '{print $2/1000}'
+```
