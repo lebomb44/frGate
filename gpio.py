@@ -181,6 +181,10 @@ def ups2_get():
     global UPS2_PIN
     return bool(GPIO.input(UPS2_PIN))
 
+def ups_in_get():
+    global UPS_IN_PIN
+    return bool(GPIO.input(UPS_IN_PIN))
+
 def rf_get():
     global RF_PIN
     return bool(GPIO.input(RF_PIN))

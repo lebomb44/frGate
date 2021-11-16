@@ -245,6 +245,14 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
                                                 self.error404("BAD UPS2")
                                         else:
                                             self.ok200(str(gpio.ups2_get()))
+                                    elif url_tokens[4] == "ups_in":
+                                        if url_tokens_len > 5:
+                                            if url_tokens[5] == "json":
+                                                self.ok200(json.dumps({"ups_in": gpio.ups_in_get()}, sort_keys=True, indent=4), content_type="application/json")
+                                            else:
+                                                self.error404("BAD UPS_IN")
+                                        else:
+                                            self.ok200(str(gpio.ups_in_get()))
                                     elif url_tokens[4] == "rf":
                                         if url_tokens_len > 5:
                                             if url_tokens[5] == "json":
@@ -256,7 +264,7 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
                                     elif url_tokens[4] == "json":
                                         self.ok200(json.dumps({"buzzer": gpio.buzzer_get(),
                                                                "move0": gpio.move0_get(), "move1": gpio.move1_get(), "move2": gpio.move2_get(), "move3": gpio.move3_get(), "move4": gpio.move4_get(), "move5": gpio.move5_get(), "move6": gpio.move6_get(), "move7": gpio.move7_get(),
-                                                               "rack": gpio.rack_get(), "light": gpio.light_get(), "rf": gpio.rf_get(),
+                                                               "rack": gpio.rack_get(), "light": gpio.light_get(), "ups_in": gpio.ups_in_get(), "rf": gpio.rf_get(),
                                                                "ups0": gpio.ups0_get(), "ups1": gpio.ups1_get(), "ups2": gpio.ups2_get()},
                                                                sort_keys=True, indent=4), content_type="application/json")
                                     else:
@@ -266,7 +274,7 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
                                                "      move0: " + str(gpio.move0_get()) + " move1: " + str(gpio.move1_get()) + " move2: " + str(gpio.move2_get()) + "\n" +
                                                "      move3: " + str(gpio.move3_get()) + " move4: " + str(gpio.move4_get()) + " move5: " + str(gpio.move5_get()) + "\n" +
                                                "      move6: " + str(gpio.move6_get()) + " move7: " + str(gpio.move7_get()) + "\n" +
-                                               "      rack: " + str(gpio.rack_get()) + " light: " + str(gpio.light_get()) + " rf: " + str(gpio.rf_get()) + "\n" +
+                                               "      rack: " + str(gpio.rack_get()) + " light: " + str(gpio.light_get()) + " ups_in: " + str(gpio.ups_in_get()) + " rf: " + str(gpio.rf_get()) + "\n" +
                                                "      ups0: " + str(gpio.ups0_get()) + " ups1: " + str(gpio.ups1_get()) + " ups2: " + str(gpio.ups2_get()) + "\n")
                             elif url_tokens[3] == "sendsms":
                                 if url_tokens_len > 4:
@@ -276,7 +284,7 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
                                 self.ok200(json.dumps({"alarm": {"enabled": alarm.is_enabled(), "triggered": alarm.is_triggered(), "timeout": alarm.timeout_get(), "stopped": alarm.is_stopped(), "sum": alarm.sum()},
                                                        "gpio": {"buzzer": gpio.buzzer_get(),
                                                                 "move0": gpio.move0_get(), "move1": gpio.move1_get(), "move2": gpio.move2_get(), "move3": gpio.move3_get(), "move4": gpio.move4_get(), "move5": gpio.move5_get(), "move6": gpio.move6_get(), "move7": gpio.move7_get(),
-                                                                "rack": gpio.rack_get(), "light": gpio.light_get(), "rf": gpio.rf_get(),
+                                                                "rack": gpio.rack_get(), "light": gpio.light_get(), "ups_in": gpio.ups_in_get(), "rf": gpio.rf_get(),
                                                                 "ups0": gpio.ups0_get(), "ups1": gpio.ups1_get(), "ups2": gpio.ups2_get()},
                                                       },
                                                       sort_keys=True, indent=4), content_type="application/json")
