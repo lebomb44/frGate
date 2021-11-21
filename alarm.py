@@ -52,7 +52,7 @@ def run():
         else:
             disable()
     try:
-        alarm_sum = gpio.move0_get() & gpio.move1_get() & gpio.move2_get() & gpio.move3_get() & gpio.move4_get() & gpio.move5_get()
+        alarm_sum = gpio.move0_get() & gpio.move1_get() & gpio.move2_get() & gpio.move3_get() & gpio.move4_get() & gpio.move5_get() & gpio.move6_get() & gpio.move7_get()
         if alarm_is_enabled is True:
             if alarm_triggered is True:
                 if 10*60 < alarm_timeout:
