@@ -99,39 +99,39 @@ def buzzer_get():
 
 def move0_get():
     global MOVE0_PIN
-    return bool(GPIO.input(MOVE0_PIN))
+    return not bool(GPIO.input(MOVE0_PIN))
 
 def move1_get():
     global MOVE1_PIN
-    return bool(GPIO.input(MOVE1_PIN))
+    return not bool(GPIO.input(MOVE1_PIN))
 
 def move2_get():
     global MOVE2_PIN
-    return bool(GPIO.input(MOVE2_PIN))
+    return not bool(GPIO.input(MOVE2_PIN))
 
 def move3_get():
     global MOVE3_PIN
-    return bool(GPIO.input(MOVE3_PIN))
+    return not bool(GPIO.input(MOVE3_PIN))
 
 def move4_get():
     global MOVE4_PIN
-    return bool(GPIO.input(MOVE4_PIN))
+    return not bool(GPIO.input(MOVE4_PIN))
 
 def move5_get():
     global MOVE5_PIN
-    return bool(GPIO.input(MOVE5_PIN))
+    return not bool(GPIO.input(MOVE5_PIN))
 
 def move6_get():
     global MOVE6_PIN
-    return bool(GPIO.input(MOVE6_PIN))
+    return not bool(GPIO.input(MOVE6_PIN))
 
 def move7_get():
     global MOVE7_PIN
-    return bool(GPIO.input(MOVE7_PIN))
+    return not bool(GPIO.input(MOVE7_PIN))
 
 def rack_get():
     global RACK_PIN
-    return bool(GPIO.input(RACK_PIN))
+    return not bool(GPIO.input(RACK_PIN))
 
 def light_on():
     global LIGHT_PIN
@@ -183,8 +183,8 @@ def ups2_get():
 
 def ups_in_get():
     global UPS_IN_PIN
-    return bool(GPIO.input(UPS_IN_PIN))
+    return not bool(GPIO.input(UPS_IN_PIN))
 
 def rf_get():
     global RF_PIN
-    return bool(GPIO.input(RF_PIN))
+    return not bool(GPIO.input(RF_PIN))

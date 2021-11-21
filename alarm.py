@@ -30,7 +30,7 @@ def init():
     alarm_triggered = False
     alarm_timeout = 0
     alarm_stopped = False
-    alram_sum = False
+    alarm_sum = False
     gpio.buzzer_off()
     gpio.light_off()
 
@@ -65,7 +65,7 @@ def run():
                     # Turn on the buzzer
                     gpio.buzzer_on()
             else:
-                if alarm_sum is True:
+                if alarm_sum is False:
                     alarm_triggered = True
                     alarm_timeout = 0
                     alarm_stopped = False
