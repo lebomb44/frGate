@@ -33,7 +33,7 @@ Listen 444
 #######################################################
 # Nginx
 ```shell
-jeedom@jeedom:~$ sudo apt install nginx-extras fcgiwrap
+jeedom@jeedom:~$ sudo apt install nginx-extras fcgiwrap php-fpm
 ```
 ## Copy the file "default" in this folder
 ```shell
