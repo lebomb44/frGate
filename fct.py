@@ -8,6 +8,7 @@
 from __future__ import print_function
 import time
 import traceback
+from six.moves import urllib
 import requests
 
 import settings
@@ -39,6 +40,8 @@ def send_sms(msg):
     log("Send SMS: " + msg)
     http_request(settings.SMS_URL1 + urllib.parse.quote(msg))
     http_request(settings.SMS_URL2 + urllib.parse.quote(msg))
+    http_request(settings.SMS_URL3 + urllib.parse.quote(msg))
+    http_request(settings.SMS_URL4 + urllib.parse.quote(msg))
 
 
 def send_email(msg):
@@ -47,6 +50,8 @@ def send_email(msg):
     log("Send EMAIL: " + msg)
     http_request(settings.EMAIL_URL1 + urllib.parse.quote(msg))
     http_request(settings.EMAIL_URL2 + urllib.parse.quote(msg))
+    http_request(settings.EMAIL_URL3 + urllib.parse.quote(msg))
+    http_request(settings.EMAIL_URL4 + urllib.parse.quote(msg))
 
 
 def send_alert(msg):

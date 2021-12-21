@@ -15,22 +15,34 @@ import alarm
 
 HTTPD_PORT = 8444
 MAX_NODE_ERRORS = 10000
-SMS_URL1 = ('http://127.0.0.1/core/api/jeeApi.php?'
-           'apikey=FddiT3sOcnrs5FcPh35kyTJLhQRdnFra&'
-           'type=cmd&id=111&title=Jeedom&message=')
-SMS_URL2 = ('http://127.0.0.1/core/api/jeeApi.php?'
-           'apikey=FddiT3sOcnrs5FcPh35kyTJLhQRdnFra&'
-           'type=cmd&id=159&title=Jeedom&message=')
-EMAIL_URL1 = ('http://127.0.0.1/core/api/jeeApi.php?'
-             'apikey=FddiT3sOcnrs5FcPh35kyTJLhQRdnFra&'
-             'type=cmd&id=157&title=Jeedom&message=')
-EMAIL_URL2 = ('http://127.0.0.1/core/api/jeeApi.php?'
-             'apikey=FddiT3sOcnrs5FcPh35kyTJLhQRdnFra&'
-             'type=cmd&id=158&title=Jeedom&message=')
+SMS_URL1 = ('http://127.0.0.1:8080/core/api/jeeApi.php?'
+           'apikey=eqQ5X8TgSwbkHRAuTpFJsAlGVOFauBOt&'
+           'type=cmd&id=167&title=Jeedom_Bourdilot&message=')
+SMS_URL2 = ('http://127.0.0.1:8080/core/api/jeeApi.php?'
+           'apikey=eqQ5X8TgSwbkHRAuTpFJsAlGVOFauBOt&'
+           'type=cmd&id=168&title=Jeedom_Bourdilot&message=')
+SMS_URL3 = ('http://127.0.0.1:8080/core/api/jeeApi.php?'
+           'apikey=eqQ5X8TgSwbkHRAuTpFJsAlGVOFauBOt&'
+           'type=cmd&id=165&title=Jeedom_Bourdilot&message=')
+SMS_URL4 = ('http://127.0.0.1:8080/core/api/jeeApi.php?'
+           'apikey=eqQ5X8TgSwbkHRAuTpFJsAlGVOFauBOt&'
+           'type=cmd&id=166&title=Jeedom_Bourdilot&message=')
+EMAIL_URL1 = ('http://127.0.0.1:8080/core/api/jeeApi.php?'
+             'apikey=eqQ5X8TgSwbkHRAuTpFJsAlGVOFauBOt&'
+             'type=cmd&id=169&title=Jeedom_Bourdilot&message=')
+EMAIL_URL2 = ('http://127.0.0.1:8080/core/api/jeeApi.php?'
+             'apikey=eqQ5X8TgSwbkHRAuTpFJsAlGVOFauBOt&'
+             'type=cmd&id=170&title=Jeedom_Bourdilot&message=')
+EMAIL_URL3 = ('http://127.0.0.1:8080/core/api/jeeApi.php?'
+             'apikey=eqQ5X8TgSwbkHRAuTpFJsAlGVOFauBOt&'
+             'type=cmd&id=171&title=Jeedom_Bourdilot&message=')
+EMAIL_URL4 = ('http://127.0.0.1:8080/core/api/jeeApi.php?'
+             'apikey=eqQ5X8TgSwbkHRAuTpFJsAlGVOFauBOt&'
+             'type=cmd&id=172&title=Jeedom_Bourdilot&message=')
 
-ALARM_NAME_URL = ('http://127.0.0.1/core/api/jeeApi.php?'
-                  'plugin=virtual&apikey=IfTprumNYRf0MxCtGlhXGxAB3GPXpHl0&'
-                  'type=virtual&id=277&value=')
+ALARM_NAME_URL = ('http://127.0.0.1:8080/core/api/jeeApi.php?'
+                  'plugin=virtual&apikey=xxxxxxxx&'
+                  'type=virtual&id=xxx&value=')
 
 run_loop = 0
 log_msg = ""

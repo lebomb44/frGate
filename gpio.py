@@ -103,7 +103,10 @@ def move0_get():
 
 def move1_get():
     global MOVE1_PIN
-    return not bool(GPIO.input(MOVE1_PIN))
+    status = False
+    for i in range(0, 10):
+        status = status or (not bool(GPIO.input(MOVE1_PIN)))
+    return status
 
 def move2_get():
     global MOVE2_PIN

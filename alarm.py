@@ -16,6 +16,8 @@ alarm_is_enabled_by_hw = False
 alarm_triggered = False
 alarm_timeout = 0
 alarm_stopped = False
+alarm_status = dict()
+alarm_initial_status = dict()
 alarm_sum = False
 
 def init():
@@ -30,6 +32,8 @@ def init():
     alarm_triggered = False
     alarm_timeout = 0
     alarm_stopped = False
+    alarm_status = dict()
+    alarm_initial_status = dict()
     alarm_sum = False
     gpio.buzzer_off()
     gpio.light_off()
@@ -40,19 +44,31 @@ def run():
     global alarm_triggered
     global alarm_timeout
     global alarm_stopped
+    global alarm_status
+    global alarm_initial_status
     global alarm_sum
     """
         Cycle execution to poll on sensors
     """
     if alarm_is_enabled_by_hw != gpio.rf_get():
-        alarm_is_enabled = gpio.rf_get()
-        alarm_is_enabled_by_hw = alarm_is_enabled
-        if alarm_is_enabled == True:
+        alarm_is_enabled_by_hw = gpio.rf_get()
+        if alarm_is_enabled_by_hw == True:
             enable()
         else:
             disable()
     try:
-        alarm_sum = gpio.move0_get() & gpio.move1_get() & gpio.move2_get() & gpio.move3_get() & gpio.move4_get() & gpio.move5_get() & gpio.move6_get() & gpio.move7_get()
+        alarm_status["move0"] = gpio.move0_get()
+        alarm_status["move1"] = gpio.move1_get()
+        alarm_status["move2"] = gpio.move2_get()
+        alarm_status["move3"] = gpio.move3_get()
+        alarm_status["move4"] = gpio.move4_get()
+        alarm_status["move5"] = gpio.move5_get()
+        alarm_status["move6"] = gpio.move6_get()
+        alarm_status["move7"] = gpio.move7_get()
+        alarm_sum = True
+        for sensor_name, sensor_value in alarm_status.items():
+            alarm_sum = alarm_sum & sensor_value
+
         if alarm_is_enabled is True:
             if alarm_triggered is True:
                 if 10*60 < alarm_timeout:
@@ -65,15 +81,22 @@ def run():
                     # Turn on the buzzer
                     gpio.buzzer_on()
             else:
-                if alarm_sum is False:
+                diff_found = False
+                msg = ""
+                for sensor_name, sensor_value in alarm_status.items():
+                    if sensor_value != alarm_initial_status[sensor_name]:
+                        diff_found = True
+                        msg = msg + " " + sensor_name
+                if diff_found is True:
                     alarm_triggered = True
                     alarm_timeout = 0
                     alarm_stopped = False
                     gpio.buzzer_on()
-                    fct.send_alert("ALARM started")
+                    fct.send_alert("ALARM started:" + msg)
                 else:
                     gpio.buzzer_off()
         else:
+            alarm_initial_status = copy.deepcopy(alarm_status)
             gpio.buzzer_off()
     except Exception as ex:
         fct.log_exception(ex)
@@ -87,7 +110,10 @@ def enable():
 
 
 def disable():
+    global alarm_is_enabled
     init()
+    alarm_is_enabled = False
+    gpio.light_off()
 
 
 def is_enabled():
