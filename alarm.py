@@ -7,7 +7,10 @@
 
 import copy
 import time
+import socket
+import subprocess
 
+import settings
 import fct
 import gpio
 
@@ -107,6 +110,13 @@ def enable():
     init()
     alarm_is_enabled = True
     gpio.light_on()
+    if settings.LIGHT_BEETLE_IS_ENABLED is True:
+        try:
+            ip = socket.gethostbyname("galerie")
+            subprocess.run(["ssh", "root@" + ip , "\"echo beetleTemp lightMode set 3\n > /dec/ttyACM0\""], shell=False, check=False, timeout=2.0)
+        except:
+            pass
+    fct.log("Alarm enabled")
 
 
 def disable():
@@ -114,6 +124,13 @@ def disable():
     init()
     alarm_is_enabled = False
     gpio.light_off()
+    if settings.LIGHT_BEETLE_IS_ENABLED is True:
+        try:
+            ip = socket.gethostbyname("galerie")
+            subprocess.run(["ssh", "root@" + ip, "\"echo beetleTemp lightMode set 0\n > /dec/ttyACM0\""], shell=False, check=False, timeout=2.0)
+        except:
+            pass
+    fct.log("Alarm disabled")
 
 
 def is_enabled():

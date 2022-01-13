@@ -325,6 +325,7 @@ def signal_term_handler(signal_, frame_):
 
 if __name__ == '__main__':
     signal.signal(signal.SIGTERM, signal_term_handler)
+    settings.init()
     gpio.init()
     alarm.init()
     monitoring.start()
