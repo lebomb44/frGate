@@ -113,7 +113,7 @@ def enable():
     if settings.LIGHT_BEETLE_IS_ENABLED is True:
         try:
             ip = socket.gethostbyname("galerie")
-            subprocess.run(["ssh", "root@" + ip , "\"echo beetleTemp lightMode set 3\n > /dec/ttyACM0\""], shell=False, check=False, timeout=2.0)
+            subprocess.run("sudo -u jeedom ssh root@" + ip + " \"echo \\\"beetleTemp lightMode set 3\n\\\" > /dev/ttyACM0\"", shell=True, check=False, timeout=2.0)
         except:
             pass
     fct.log("Alarm enabled")
@@ -127,7 +127,7 @@ def disable():
     if settings.LIGHT_BEETLE_IS_ENABLED is True:
         try:
             ip = socket.gethostbyname("galerie")
-            subprocess.run(["ssh", "root@" + ip, "\"echo beetleTemp lightMode set 0\n > /dec/ttyACM0\""], shell=False, check=False, timeout=2.0)
+            subprocess.run("sudo -u jeedom ssh root@" + ip + " \"echo \\\"beetleTemp lightMode set 0\n\\\" > /dev/ttyACM0\"", shell=True, check=False, timeout=2.0)
         except:
             pass
     fct.log("Alarm disabled")
