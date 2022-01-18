@@ -99,7 +99,10 @@ def buzzer_get():
 
 def move0_get():
     global MOVE0_PIN
-    return not bool(GPIO.input(MOVE0_PIN))
+    status = False
+    for i in range(0, 10):
+        status = status or (not bool(GPIO.input(MOVE0_PIN)))
+    return status
 
 def move1_get():
     global MOVE1_PIN
@@ -110,27 +113,45 @@ def move1_get():
 
 def move2_get():
     global MOVE2_PIN
-    return not bool(GPIO.input(MOVE2_PIN))
+    status = False
+    for i in range(0, 10):
+        status = status or (not bool(GPIO.input(MOVE2_PIN)))
+    return status
 
 def move3_get():
     global MOVE3_PIN
-    return not bool(GPIO.input(MOVE3_PIN))
+    status = False
+    for i in range(0, 10):
+        status = status or (not bool(GPIO.input(MOVE3_PIN)))
+    return status
 
 def move4_get():
     global MOVE4_PIN
-    return not bool(GPIO.input(MOVE4_PIN))
+    status = False
+    for i in range(0, 10):
+        status = status or (not bool(GPIO.input(MOVE4_PIN)))
+    return status
 
 def move5_get():
     global MOVE5_PIN
-    return not bool(GPIO.input(MOVE5_PIN))
+    status = False
+    for i in range(0, 10):
+        status = status or (not bool(GPIO.input(MOVE5_PIN)))
+    return status
 
 def move6_get():
     global MOVE6_PIN
-    return not bool(GPIO.input(MOVE6_PIN))
+    status = False
+    for i in range(0, 10):
+        status = status or (not bool(GPIO.input(MOVE6_PIN)))
+    return status
 
 def move7_get():
     global MOVE7_PIN
-    return not bool(GPIO.input(MOVE7_PIN))
+    status = False
+    for i in range(0, 10):
+        status = status or (not bool(GPIO.input(MOVE7_PIN)))
+    return status
 
 def rack_get():
     global RACK_PIN
