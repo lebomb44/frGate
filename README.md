@@ -106,3 +106,25 @@ jeedom@frdom:~ $ sudo reboot
 ```shell
 jeedom@frdom:~ $ find /sys/bus/w1/devices/ -name "28-*" -exec cat {}/w1_slave \; | grep "t=" | awk -F "t=" '{print $2/1000}'
 ```
+#######################################################
+# ConBee 2 firmware upgrade on Ubuntu
+Source : http://ronhks.hu/2021/04/22/conbee-2-firmware-upgrade-on-ubuntu/
+Requirements:
+Installed Deconz software. Downloadable, here: http://deconz.dresden-elektronik.de/ubuntu/stable/
+Download the lates firmware from here:
+http://deconz.dresden-elektronik.de/deconz-firmware/?C=M;O=D
+(deCONZ_ConBeeII_0x)
+
+Stop all services:
+```shell
+$ sudo systemctl stop deconz && sudo systemctl stop deconz-gui
+```
+Stop ModemManager if it is installed:
+```shell
+$ sudo systemctl stop ModemManager
+```
+Update the firmware:
+```shell
+sudo GCFFlasher_internal -t 60 -d /dev/ttyACM0 -f <LOCATION_OF_THE FIRMWARE_IMG>/deCONZ_ConBeeII_0x1234567.bin.GCF
+```
+src: https://github.com/dresden-elektronik/deconz-rest-plugin/wiki/Update-deCONZ-manually
