@@ -109,10 +109,13 @@ jeedom@frdom:~ $ find /sys/bus/w1/devices/ -name "28-*" -exec cat {}/w1_slave \;
 #######################################################
 # ConBee 2 firmware upgrade on Ubuntu
 Source : http://ronhks.hu/2021/04/22/conbee-2-firmware-upgrade-on-ubuntu/
+
 Requirements:
 Installed Deconz software. Downloadable, here: http://deconz.dresden-elektronik.de/ubuntu/stable/
+
 Download the lates firmware from here:
 http://deconz.dresden-elektronik.de/deconz-firmware/?C=M;O=D
+
 (deCONZ_ConBeeII_0x)
 
 Stop all services:
