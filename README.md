@@ -9,15 +9,15 @@ jeedom@jeedom:~$ sudo apt full-upgrade
 ```shell
 jeedom@jeedom:~$ sudo apt install shellinabox
 ```
-## Edit the file 
-```shell
-jeedom@jeedom:~$ sudo vi /etc/default/shellinabox
-jeedom@jeedom:~$ sudo /etc/init.d/shellinabox stop
-```
 ## Add a "-t" at the end of the last line:
 ```shell
+jeedom@jeedom:~$ sudo /etc/init.d/shellinabox stop
+```
+```shell
+jeedom@jeedom:~$ sudo vi /etc/default/shellinabox
 SHELLINABOX_ARGS="--no-beep -t"
 ```
+
 ## Reboot to test that the service a started and listen on port 4200
 ## Open a web navigator on port 4200
 
