@@ -28,12 +28,13 @@ jeedom@osjeedom:~$ sudo vi /etc/apache2/ports.conf
 Listen 8080
 Listen 444
 Listen 444
+jeedom@osjeedom:~$ sudo reboot
 ```
 
 #######################################################
 # Nginx
 ```shell
-jeedom@jeedom:~$ sudo apt install nginx-extras fcgiwrap php-fpm
+jeedom@jeedom:~$ sudo apt install nginx nginx-extras fcgiwrap php-fpm
 ```
 ## Copy the file "default" in this folder
 ```shell
@@ -74,7 +75,7 @@ jeedom@jeedom:~$ sudo vi /etc/nginx/nginx.conf
 ```shell
 jeedom@jeedom:~$ sudo su -
 root@jeedom:~$ crontab -e
-0 * * * * /home/jeedom/frGate/nginx/check-services.sh > /tmp/check-services.log
+0 * * * * /home/jeedom/workspace/frGate/nginx/check-services.sh > /tmp/check-services.log
 ```
 #######################################################
 # Install lbGate
@@ -83,7 +84,7 @@ jeedom@frdom:~/frGate/service $ sudo cp lbGate /etc/init.d/.
 jeedom@frdom:~/frGate/service $ sudo update-rc.d lbGate defaults
 jeedom@frdom:~/frGate/service $ cd
 jeedom@frdom:~ $ sudo apt install rpi.gpio
-jeedom@frdom:~ $ ln -s /home/jeedom/frGate/lbGate.py lbGate.py
+jeedom@frdom:~ $ ln -s /home/jeedom/workspace/frGate/lbGate.py lbGate.py
 ```
 #######################################################
 # Static IP
