@@ -132,3 +132,13 @@ Update the firmware:
 sudo GCFFlasher_internal -t 60 -d /dev/ttyACM0 -f <LOCATION_OF_THE FIRMWARE_IMG>/deCONZ_ConBeeII_0x1234567.bin.GCF
 ```
 src: https://github.com/dresden-elektronik/deconz-rest-plugin/wiki/Update-deCONZ-manually
+#######################################################
+# Galerie LED
+OFF:
+```shell
+sudo -u jeedom ssh root@galerie "echo beetleTemp lightMode set 0\n > /dev/ttyACM0"
+```
+ON:
+```shell
+sudo -u jeedom ssh root@galerie "echo beetleTemp lightMode set 3\n > /dev/ttyACM0"
+```
