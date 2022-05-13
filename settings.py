@@ -21,6 +21,7 @@ API_KEY = ""
 SMS_IDS = []
 EMAIL_IDS = []
 LIGHT_BEETLE_IS_ENABLED = False
+ALARM_NAME = dict()
 
 def init():
     global HOSTNAME
@@ -28,18 +29,35 @@ def init():
     global SMS_IDS
     global EMAIL_IDS
     global LIGHT_BEETLE_IS_ENABLED
+    global ALARM_NAME
     if socket.gethostname() == "frdom":
         HOSTNAME = "Frenes"
         API_KEY = "sQDe2Zt1ei2tWi7eebsj3J8jHGLaDOI3"
         SMS_IDS = ["146", "147", "148", "149"]
         EMAIL_IDS = ["150"]
         LIGHT_BEETLE_IS_ENABLED = False
+        ALARM_NAME["move0"] = "NotUsed0"
+        ALARM_NAME["move1"] = "NotUsed1"
+        ALARM_NAME["move2"] = "Petit Salon"
+        ALARM_NAME["move3"] = "Avant"
+        ALARM_NAME["move4"] = "Move Etage"
+        ALARM_NAME["move5"] = "NotUsed2"
+        ALARM_NAME["move6"] = "Move Couloir"
+        ALARM_NAME["move7"] = "Move Petit Salon"
     if socket.gethostname() == "btdom":
         HOSTNAME = "Bourdilot"
         API_KEY = "sQDe2Zt1ei2tWi7eebsj3J8jHGLaDOI3"
         SMS_IDS = ["146", "147", "148", "149"]
         EMAIL_IDS = ["150"]
         LIGHT_BEETLE_IS_ENABLED = True
+        ALARM_NAME["move0"] = "Move Bas"
+        ALARM_NAME["move1"] = "Move Haut"
+        ALARM_NAME["move2"] = "Avant"
+        ALARM_NAME["move3"] = "Arriere"
+        ALARM_NAME["move4"] = "NotUsed0"
+        ALARM_NAME["move5"] = "NotUsed1"
+        ALARM_NAME["move6"] = "NotUsed2"
+        ALARM_NAME["move7"] = "NotUsed3"
 
 def sms_url_get(smsid):
     global API_KEY

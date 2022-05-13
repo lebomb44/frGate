@@ -89,7 +89,7 @@ def run():
                 for sensor_name, sensor_value in alarm_status.items():
                     if sensor_value != alarm_initial_status[sensor_name]:
                         diff_found = True
-                        msg = msg + " " + sensor_name
+                        msg = msg + " " + settings.ALARM_NAME[sensor_name]
                 if diff_found is True:
                     alarm_triggered = True
                     alarm_timeout = 0
