@@ -36,9 +36,9 @@ def init():
         LIGHT_BEETLE_IS_ENABLED = False
     if socket.gethostname() == "btdom":
         HOSTNAME = "Bourdilot"
-        API_KEY = "01sQLNJSPTCmUTxkaUFdV3aVmNjUQp5C"
-        SMS_IDS = ["66", "67", "68", "69"]
-        EMAIL_IDS = ["70"]
+        API_KEY = "sQDe2Zt1ei2tWi7eebsj3J8jHGLaDOI3"
+        SMS_IDS = ["146", "147", "148", "149"]
+        EMAIL_IDS = ["150"]
         LIGHT_BEETLE_IS_ENABLED = True
 
 def sms_url_get(smsid):

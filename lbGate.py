@@ -31,6 +31,8 @@ class Monitoring(threading.Thread):
             if loop_nb % 10 == 0:
                 alarm.run()
                 settings.run()
+            if loop_nb % 600 == 0:
+                alarm.update_status()
             loop_nb += 1
             if loop_nb >= 1000000:
                 loop_nb = 0

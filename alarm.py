@@ -161,3 +161,18 @@ def is_stopped():
 def sum():
     global alarm_sum
     return alarm_sum
+
+
+def update_status():
+    global alarm_is_enabled
+    if settings.LIGHT_BEETLE_IS_ENABLED is True:
+        global alarm_is_enabled
+        try:
+            ip = socket.gethostbyname("galerie")
+            if alarm_is_enabled is True:
+                subprocess.run("sudo -u jeedom ssh root@" + ip + " \"echo \\\"beetleTemp lightMode set 3\n\\\" > /dev/ttyACM0\"", shell=True, check=False, timeout=2.0)
+            else:
+                subprocess.run("sudo -u jeedom ssh root@" + ip + " \"echo \\\"beetleTemp lightMode set 0\n\\\" > /dev/ttyACM0\"", shell=True, check=False, timeout=2.0)
+        except:
+            pass
+
