@@ -142,3 +142,13 @@ ON:
 ```shell
 sudo -u jeedom ssh root@galerie "echo beetleTemp lightMode set 3\n > /dev/ttyACM0"
 ```
+#######################################################
+# Create SD Card
+```shell
+parted -s /dev/sdc mklabel msdos
+parted -s -a optimal /dev/sdc mkpart primary fat32 0 512M
+parted -s -a optimal /dev/sdc mkpart primary ext4 512M 100%
+parted -s /dev/sdc set 1 boot on
+mkfs.vfat /dev/sdc1
+mkfs.ext4 /dev/sdc2
+```
