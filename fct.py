@@ -54,3 +54,4 @@ def send_alert(msg):
     """ Send a global alert (SMS + E-mail) """
     send_sms(msg)
     send_email(msg)
+

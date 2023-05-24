@@ -77,7 +77,7 @@ def run():
                 if 10*60 < alarm_timeout:
                     gpio.buzzer_off()
                     if alarm_stopped is False:
-                        fct.send_alert("BUZZER stopped")
+                        fct.send_alert("Sirene arretee ! Temps de sonnerie depasse")
                         alarm_stopped = True
                 else:
                     alarm_timeout = alarm_timeout + 1
@@ -95,7 +95,7 @@ def run():
                     alarm_timeout = 0
                     alarm_stopped = False
                     gpio.buzzer_on()
-                    fct.send_alert("ALARM started:" + msg)
+                    fct.send_alert("Alerte ! Intrusion detectee : " + msg)
                 else:
                     gpio.buzzer_off()
         else:
@@ -116,7 +116,7 @@ def enable():
             subprocess.run("sudo -u jeedom ssh root@" + ip + " \"echo \\\"beetleTemp lightMode set 3\n\\\" > /dev/ttyACM0\"", shell=True, check=False, timeout=2.0)
         except:
             pass
-    fct.log("Alarm enabled")
+    fct.send_alert("Alarme prete")
 
 
 def disable():
@@ -130,7 +130,7 @@ def disable():
             subprocess.run("sudo -u jeedom ssh root@" + ip + " \"echo \\\"beetleTemp lightMode set 0\n\\\" > /dev/ttyACM0\"", shell=True, check=False, timeout=2.0)
         except:
             pass
-    fct.log("Alarm disabled")
+    fct.send_alert("Alarme desactivee")
 
 
 def is_enabled():
@@ -166,7 +166,6 @@ def sum():
 def update_status():
     global alarm_is_enabled
     if settings.LIGHT_BEETLE_IS_ENABLED is True:
-        global alarm_is_enabled
         try:
             ip = socket.gethostbyname("galerie")
             if alarm_is_enabled is True:
