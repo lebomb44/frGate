@@ -164,6 +164,7 @@ server {
 	# Explore
 	location /explore/ {
 		add_header Set-Cookie "redirect=none;Path=/;";
+		alias /home/jeedom;
 		fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
 		fastcgi_param SCRIPT_FILENAME /home/jeedom/workspace/tinyfilemanager/tinyfilemanager.php/$query_string;
 		include fastcgi_params;
