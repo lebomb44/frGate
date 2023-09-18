@@ -305,7 +305,7 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
 
 
 monitoring = Monitoring("Monitoring")
-httpserver = http.server.HTTPServer(("", settings.HTTPD_PORT), CustomHandler)
+httpserver = http.server.ThreadingHTTPServer(("", settings.HTTPD_PORT), CustomHandler)
 
 
 def exit():
