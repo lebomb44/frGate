@@ -172,6 +172,7 @@ server {
 	# Movies 
 	location /movies/ {
 		autoindex on;
+		add_header Set-Cookie "redirect=none;Path=/;";
 		alias /media/HDD/Movies/;
 		auth_basic off;
 	}
@@ -189,7 +190,7 @@ server {
 	location /jeedom/ {
 		auth_basic off;
 		add_header Set-Cookie "redirect=none;Path=/;";
-		proxy_pass http://192.168.10.4:8080/;
+		proxy_pass http://127.0.0.1:8080/;
 	}
 	# Kodi Web interface
         location /kodi/ {
