@@ -16,76 +16,80 @@ server {
 	auth_basic_user_file /etc/nginx/.htpasswd;
 	location / {
 		root /etc/nginx/html;
+		add_header Set-Cookie "redirect=none;Path=/;";
 	}
 
 	# Nginx
 	location /nginx {
 		stub_status on;
+		add_header Set-Cookie "redirect=none;Path=/;";
 	}
 
 	# Ping-Pong
 	location /ping {
+		auth_basic off;
 		return 200 'pong';
 		add_header Content-Type text/plain;
-		auth_basic off;
+		add_header Set-Cookie "redirect=none;Path=/;";
 	}
 
 	# ShellInABox
 	location /shell {
+		add_header Set-Cookie "redirect=none;Path=/;";
 		proxy_pass http://127.0.0.1:4200/;
 	}
 
 	# Files
-	location /files {
+	location /files/ {
 		autoindex on;
-		alias /home/jeedom;
+		add_header Set-Cookie "redirect=none;Path=/;";
+		alias /home/jeedom/;
 	}
-	location /explore {
-		alias /home/osmc;
-		try_files $uri $uri/ /index.php$is_args$args;
-
-		location ~ \.php$ {
-			include snippets/fastcgi-php.conf;
-			fastcgi_param SCRIPT_FILENAME $request_filename;
-			fastcgi_pass unix:/var/run/php/php7.0-fpm.sock;
-		}
+	location /explore/ {
+		fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+		fastcgi_param SCRIPT_FILENAME /home/jeedom/workspace/tinyfilemanager/tinyfilemanager.php/$query_string;
+		include fastcgi_params;
+		add_header Set-Cookie "redirect=none;Path=/;";
+		alias /home/jeedom/;
 	}
-
-	# Camera Salon
-	location /camsalon/ {
-		proxy_pass http://192.168.10.151:81/;
+	# Box
+	location /box/ {
+		add_header Set-Cookie "redirect=none;Path=/;";
+		proxy_pass https://192.168.1.1/;
 	}
-	# Camera Allee
-	location /camallee/ {
-		proxy_pass https://192.168.10.152/;
-	}
-	# Camera Veranda
-	location /camveranda/ {
-		proxy_pass https://192.168.10.153/;
+	# Wifi
+	location /wifi/ {
+		add_header Set-Cookie "redirect=none;Path=/;";
+		proxy_pass http://192.168.1.2/;
 	}
 	# Jeedom
 	location /jeedom/ {
 		auth_basic off;
+		add_header Set-Cookie "redirect=none;Path=/;";
 		proxy_pass http://127.0.0.1:8080/;
 	}
-	# FrGate
-	location /frgate/ {
-		auth_basic off;
-		proxy_pass http://127.0.0.1:8444/;
+	# Camera Salon
+	location /camsalon/ {
+		add_header Set-Cookie "redirect=none;Path=/;";
+		proxy_pass http://192.168.1.151/;
 	}
-	location /cams/ {
-		# Disable gzip (it makes scripts feel slower since they have to complete
-		# before getting gzipped
+	# Camera Allee
+	location /camallee/ {
+		add_header Set-Cookie "redirect=none;Path=/;";
+		proxy_pass https://192.168.1.152/;
+	}
+	# Camera Veranda
+	location /camveranda/ {
+		add_header Set-Cookie "redirect=none;Path=/;";
+		proxy_pass https://192.168.1.153/;
+	}
+	# Cameras
+	location /cameras/ {
 		gzip off;
-		auth_basic off;
-		# Set the root to /usr/lib (inside this location this means that we are
-		alias /home/jeedom/reolink/;
-		# Fastcgi socket
 		fastcgi_pass unix:/var/run/fcgiwrap.socket;
-		# Fastcgi parameters, include the standard ones
-		include /etc/nginx/fastcgi_params;
-		# Adjust non standard parameters (SCRIPT_FILENAME)
-		fastcgi_param SCRIPT_FILENAME $request_filename;
+		fastcgi_param SCRIPT_FILENAME /home/jeedom/workspace/reolink/index.py;
+		include fastcgi_params;
+		add_header Set-Cookie "redirect=none;Path=/;";
         }
 }
 
