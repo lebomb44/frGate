@@ -13,6 +13,6 @@ fi
 #env
 
 echo '<html><head>'
-echo '<meta http-equiv="refresh" content="0;URL=http://'${SERVER_NAME}'">';
+echo '<meta http-equiv="refresh" content="0;URL=http://'${HTTP_HOST}'">';
 echo '</head></html>'
 

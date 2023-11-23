@@ -36,23 +36,23 @@ server {
 		set $proxy_pass none;
 		if (-f /dev/shm/_redirect_box_) {
 			set $auth_basic off;
-			set $proxy_pass http://192.168.10.1;
+			set $proxy_pass http://192.168.1.1;
 		}
 		if (-f /dev/shm/_redirect_wifi_) {
 			set $auth_basic off;
-			set $proxy_pass http://192.168.10.2;
+			set $proxy_pass http://192.168.1.2;
 		}
-		if (-f /dev/shm/_redirect_salon_) {
+		if (-f /dev/shm/_redirect_camsalon_) {
 			set $auth_basic off;
-			set $proxy_pass http://192.168.10.151;
+			set $proxy_pass http://192.168.1.151;
 		}
-		if (-f /dev/shm/_redirect_allee_) {
+		if (-f /dev/shm/_redirect_camallee_) {
 			set $auth_basic off;
-			set $proxy_pass http://192.168.10.152;
+			set $proxy_pass http://192.168.1.152;
 		}
-		if (-f /dev/shm/_redirect_verranda_) {
+		if (-f /dev/shm/_redirect_camveranda_) {
 			set $auth_basic off;
-			set $proxy_pass http://192.168.10.153;
+			set $proxy_pass http://192.168.1.153;
 		}
 		auth_basic $auth_basic;
 		if ($proxy_pass != none) {
