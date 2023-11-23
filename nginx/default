@@ -1,3 +1,19 @@
+##
+# You should look at the following URL's in order to grasp a solid understanding
+# of Nginx configuration files in order to fully unleash the power of Nginx.
+# http://wiki.nginx.org/Pitfalls
+# http://wiki.nginx.org/QuickStart
+# http://wiki.nginx.org/Configuration
+#
+# Generally, you will want to move this file somewhere, and start with a clean
+# file but keep this around for reference. Or just disable in sites-enabled.
+#
+# Please see /usr/share/doc/nginx-doc/examples/ for more detailed examples.
+##
+
+# Default server configuration
+#
+
 server {
 	listen 80 default_server;
 	server_tokens off;
@@ -11,85 +27,86 @@ server {
 	ssl_certificate_key /etc/nginx/ssl/localhost.key;
 	ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
 	ssl_ciphers         HIGH:!aNULL:!MD5;
-	#more_set_headers "Server: none";
+	#more_set_headers 'Server: none';
 	auth_basic "Restricted";                                              
 	auth_basic_user_file /etc/nginx/.htpasswd;
 	location / {
-		root /etc/nginx/html;
-		add_header Set-Cookie "redirect=none;Path=/;";
+		#root /etc/nginx/html;
+		set $auth_basic Restricted;
+		set $proxy_pass none;
+		if (-f /dev/shm/_redirect_box_) {
+			set $auth_basic off;
+			set $proxy_pass http://192.168.10.1;
+		}
+		if (-f /dev/shm/_redirect_wifi_) {
+			set $auth_basic off;
+			set $proxy_pass http://192.168.10.2;
+		}
+		if (-f /dev/shm/_redirect_salon_) {
+			set $auth_basic off;
+			set $proxy_pass http://192.168.10.151;
+		}
+		if (-f /dev/shm/_redirect_allee_) {
+			set $auth_basic off;
+			set $proxy_pass http://192.168.10.152;
+		}
+		if (-f /dev/shm/_redirect_verranda_) {
+			set $auth_basic off;
+			set $proxy_pass http://192.168.10.153;
+		}
+		auth_basic $auth_basic;
+		if ($proxy_pass != none) {
+			proxy_pass $proxy_pass;
+		}
+		if ($proxy_pass = none) {
+			root /etc/nginx/html;
+		}
+		expires 1s;
 	}
 
-	# Nginx
-	location /nginx {
-		stub_status on;
-		add_header Set-Cookie "redirect=none;Path=/;";
-	}
-
-	# Ping-Pong
-	location /ping {
-		auth_basic off;
-		return 200 'pong';
-		add_header Content-Type text/plain;
-		add_header Set-Cookie "redirect=none;Path=/;";
-	}
-
-	# ShellInABox
-	location /shell {
-		add_header Set-Cookie "redirect=none;Path=/;";
-		proxy_pass http://127.0.0.1:4200/;
-	}
-
-	# Files
-	location /files/ {
-		autoindex on;
-		add_header Set-Cookie "redirect=none;Path=/;";
-		alias /home/jeedom/;
-	}
-	location /explore/ {
-		fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
-		fastcgi_param SCRIPT_FILENAME /home/jeedom/workspace/tinyfilemanager/tinyfilemanager.php/$query_string;
-		include fastcgi_params;
-		add_header Set-Cookie "redirect=none;Path=/;";
-		alias /home/jeedom/;
-	}
-	# Box
-	location /box/ {
-		add_header Set-Cookie "redirect=none;Path=/;";
-		proxy_pass https://192.168.1.1/;
-	}
-	# Wifi
-	location /wifi/ {
-		add_header Set-Cookie "redirect=none;Path=/;";
-		proxy_pass http://192.168.1.2/;
-	}
-	# Jeedom
-	location /jeedom/ {
-		auth_basic off;
-		add_header Set-Cookie "redirect=none;Path=/;";
-		proxy_pass http://127.0.0.1:8080/;
-	}
-	# Camera Salon
-	location /camsalon/ {
-		add_header Set-Cookie "redirect=none;Path=/;";
-		proxy_pass http://192.168.1.151/;
-	}
-	# Camera Allee
-	location /camallee/ {
-		add_header Set-Cookie "redirect=none;Path=/;";
-		proxy_pass https://192.168.1.152/;
-	}
-	# Camera Veranda
-	location /camveranda/ {
-		add_header Set-Cookie "redirect=none;Path=/;";
-		proxy_pass https://192.168.1.153/;
-	}
 	# Cameras
 	location /cameras/ {
 		gzip off;
 		fastcgi_pass unix:/var/run/fcgiwrap.socket;
 		fastcgi_param SCRIPT_FILENAME /home/jeedom/workspace/reolink/index.py;
 		include fastcgi_params;
-		add_header Set-Cookie "redirect=none;Path=/;";
-        }
+	}
+	# Nginx
+	location /nginx {
+		stub_status on;
+	}
+	# Ping-Pong
+	location /ping {
+		auth_basic off;
+		return 200 'pong';
+		add_header Content-Type text/plain;
+	}
+	# ShellInABox
+	location /shell {
+		proxy_pass http://127.0.0.1:4200/;
+	}
+	# Files
+	location /files/ {
+		autoindex on;
+		alias /home/jeedom/;
+	}
+	# Explore
+	location /explore/ {
+		fastcgi_pass unix:/var/run/php/php7.3-fpm.sock;
+		fastcgi_param SCRIPT_FILENAME /home/jeedom/workspace/tinyfilemanager/tinyfilemanager.php/$query_string;
+		include fastcgi_params;
+		alias /home/jeedom/;
+	}
+	# Jeedom
+	location /jeedom/ {
+		auth_basic off;
+		proxy_pass http://127.0.0.1:8080/;
+	}
+	# Redirect
+	location /redirect/ {
+		gzip off;
+		fastcgi_pass unix:/var/run/fcgiwrap.socket;
+		fastcgi_param SCRIPT_FILENAME /etc/nginx/scripts/redirect.sh;
+		include fastcgi_params;
+	}
 }
-
