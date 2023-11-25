@@ -17,24 +17,15 @@ import alarm
 HTTPD_PORT = 8444
 MAX_NODE_ERRORS = 10000
 HOSTNAME = "Unknown"
-API_KEY = ""
-SMS_IDS = []
-EMAIL_IDS = []
 LIGHT_BEETLE_IS_ENABLED = False
 ALARM_NAME = dict()
 
 def init():
     global HOSTNAME
-    global API_KEY
-    global SMS_IDS
-    global EMAIL_IDS
     global LIGHT_BEETLE_IS_ENABLED
     global ALARM_NAME
     if socket.gethostname() == "frdom":
         HOSTNAME = "Frenes"
-        API_KEY = "sQDe2Zt1ei2tWi7eebsj3J8jHGLaDOI3"
-        SMS_IDS = ["146", "147", "148", "149"]
-        EMAIL_IDS = ["150"]
         LIGHT_BEETLE_IS_ENABLED = False
         ALARM_NAME["move0"] = "NotUsed0"
         ALARM_NAME["move1"] = "NotUsed1"
@@ -46,9 +37,6 @@ def init():
         ALARM_NAME["move7"] = "Move Petit Salon"
     if socket.gethostname() == "btdom":
         HOSTNAME = "Bourdilot"
-        API_KEY = "sQDe2Zt1ei2tWi7eebsj3J8jHGLaDOI3"
-        SMS_IDS = ["146", "147", "148", "149"]
-        EMAIL_IDS = ["150"]
         LIGHT_BEETLE_IS_ENABLED = True
         ALARM_NAME["move0"] = "Move Bas"
         ALARM_NAME["move1"] = "Move Haut"
@@ -58,19 +46,6 @@ def init():
         ALARM_NAME["move5"] = "NotUsed1"
         ALARM_NAME["move6"] = "NotUsed2"
         ALARM_NAME["move7"] = "NotUsed3"
-
-def sms_url_get(smsid):
-    global API_KEY
-    global HOSTNAME
-    return ('http://127.0.0.1:8080/core/api/jeeApi.php?'
-           'apikey='+API_KEY+'&'
-           'type=cmd&id='+smsid+'&title=Jeedom_'+HOSTNAME+'&message=')
-def email_url_get(emailid):
-    global API_KEY
-    global HOSTNAME
-    return ('http://127.0.0.1:8080/core/api/jeeApi.php?'
-            'apikey='+API_KEY+'&'
-            'type=cmd&id='+emailid+'&title=Jeedom_'+HOSTNAME+'&message=')
 
 
 run_loop = 0

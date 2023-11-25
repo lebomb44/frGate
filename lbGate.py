@@ -16,6 +16,8 @@ import gpio
 import settings
 import fct
 import alarm
+import lbsms
+import lbemail
 
 class Monitoring(threading.Thread):
     """ Monitoring class """
@@ -294,6 +296,59 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
                                 self.error404("Bad command for node " + node + ": " + url_tokens[3])
                         else:
                             self.ok200(settings.log_msg)
+                    elif node == "sms":
+                        if url_tokens_len > 3:
+                            if url_tokens[3] == "sendto":
+                                if url_tokens_len == 6:
+                                    sms.sendto(url_tokens[4], url_tokens[5])
+                                    self.ok200("Sending SMS to " + url_tokens[4] + ": " + url_tokens[5])
+                                else:
+                                    self.error404("Bad number of argment for command sms.sendto")
+                            elif url_tokens[3] == "send":
+                                if url_tokens_len == 5:
+                                    fct.send_sms(url_tokens[4])
+                                    self.ok200("Sending SMS to all : " + url_tokens[4])
+                                else:
+                                    self.error404("Bad number of argment for command fct.send_sms")
+                            elif url_tokens[3] == "json":
+                                try:
+                                    self.ok200(json.dumps(sms.dict, sort_keys=True, indent=4), content_type="application/json")
+                                except:
+                                    self.error404("Bad json dump of 'sms' node")
+                            else:
+                                self.error404("Bad command for node " + node + ": " + url_tokens[3])
+                        else:
+                            self.error404("No command for node: " + node)
+                    elif node == "email":
+                        if url_tokens_len > 3:
+                            if url_tokens[3] == "sendto":
+                                if url_tokens_len == 7:
+                                    lbemail.sendto(url_tokens[4], url_tokens[5], url_tokens[6])
+                                    self.ok200("Sending email to " + url_tokens[4] + ", Object: " + url_tokens[5] + ", Message: " + url_tokens[6])
+                                else:
+                                    self.error404("Bad number of argment for command lbemail.sendto")
+                            elif url_tokens[3] == "send":
+                                if url_tokens_len == 5:
+                                    fct.send_email(url_tokens[4])
+                                    self.ok200("Sending email to all : " + url_tokens[4])
+                                else:
+                                    self.error404("Bad number of argment for command fct.send_email")
+                            else:
+                                self.error404("Bad command for node " + node + ": " + url_tokens[3])
+                        else:
+                            self.error404("No command for node: " + node)
+                    elif node == "alert":
+                        if url_tokens_len > 3:
+                            if url_tokens[3] == "send":
+                                if url_tokens_len == 5:
+                                    fct.send_alert(url_tokens[4])
+                                    self.ok200("Sending alert to all : " + url_tokens[4])
+                                else:
+                                    self.error404("Bad number of argment for command fct.send_alert")
+                            else:
+                                self.error404("Bad command for node " + node + ": " + url_tokens[3])
+                        else:
+                            self.error404("No command for node: " + node)
                     else:
                         self.error404("Bad node: " + node)
                 else:
@@ -307,6 +362,8 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
 monitoring = Monitoring("Monitoring")
 httpserver = http.server.ThreadingHTTPServer(("", settings.HTTPD_PORT), CustomHandler)
 
+sms=lbsms.Sms("sms")
+fct.sms = sms
 
 def exit():
     """ Stop HTTP server, stop serial threads and monitoring thread """
@@ -315,6 +372,7 @@ def exit():
     fct.log("Stopping HTTP server")
     httpserver.server_close()
     monitoring.stop()
+    sms.stop()
     time.sleep(2.0)
 
 
@@ -330,6 +388,7 @@ if __name__ == '__main__':
     settings.init()
     gpio.init()
     alarm.init()
+    sms.start()
     monitoring.start()
     fct.log("Serving at port " + str(settings.HTTPD_PORT))
     try:

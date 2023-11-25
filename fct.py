@@ -12,7 +12,12 @@ from six.moves import urllib
 import requests
 
 import settings
+import myconfig
+import alarm
+import lbemail
 
+
+sms = None
 
 def log(msg):
     """ Print message with a time header """
@@ -36,18 +41,19 @@ def http_request(url):
 
 def send_sms(msg):
     """ Send SMS message """
+    global sms
     msg = msg + " " + time.strftime('%Y/%m/%d %H:%M:%S')
     log("Send SMS: " + msg)
-    for smsid in settings.SMS_IDS:
-        http_request(settings.sms_url_get(smsid) + urllib.parse.quote(msg))
+    for phone in myconfig.SMS:
+        sms.sendto(phone, msg)
 
 
 def send_email(msg):
     """ Send e-mail """
     msg = msg + " " + time.strftime('%Y/%m/%d %H:%M:%S')
     log("Send EMAIL: " + msg)
-    for emailid in settings.EMAIL_IDS:
-        http_request(settings.email_url_get(emailid) + urllib.parse.quote(msg))
+    for email in myconfig.EMAIL:
+        lbemail.sendto(email, msg, msg)
 
 
 def send_alert(msg):
