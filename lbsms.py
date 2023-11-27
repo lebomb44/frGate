@@ -196,3 +196,4 @@ class Sms(threading.Thread):
             self.smsqueue.put(sms)
         except Exception as ex:
             fct.log_exception(ex)
+
