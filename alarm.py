@@ -116,7 +116,7 @@ def enable():
             subprocess.run("sudo -u jeedom ssh root@" + ip + " \"echo \\\"beetleTemp lightMode set 3\n\\\" > /dev/ttyACM0\"", shell=True, check=False, timeout=2.0)
         except:
             pass
-    fct.send_alert("Alarme prete")
+    fct.send_alert("Alarme ON")
 
 
 def disable():
@@ -130,7 +130,7 @@ def disable():
             subprocess.run("sudo -u jeedom ssh root@" + ip + " \"echo \\\"beetleTemp lightMode set 0\n\\\" > /dev/ttyACM0\"", shell=True, check=False, timeout=2.0)
         except:
             pass
-    fct.send_alert("Alarme desactivee")
+    fct.send_alert("Alarme OFF")
 
 
 def is_enabled():

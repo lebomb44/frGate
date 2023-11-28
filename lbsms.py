@@ -77,7 +77,7 @@ class Sms(threading.Thread):
                         self.read_iter = read_iter_
                     if line != "":
                         line_array = line.split(" ")
-                        #fct.log("DEBUG: line_array=" + str(line_array))
+                        fct.log("DEBUG: line_array=" + str(line_array))
                         if len(line_array) == 2:
                             if line_array[0] == "+CSQ:":
                                 try:
