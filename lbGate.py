@@ -59,6 +59,7 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
                 self.wfile.write((time.strftime('%Y/%m/%d %H:%M:%S: ') + resp).encode())
             else:
                 self.wfile.write((resp).encode())
+            self.wfile.flush()
         except Exception as ex:
             fct.log_exception(ex)
 
@@ -68,6 +69,7 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
             self.send_response(404)
             self.end_headers()
             self.wfile.write((time.strftime('%Y/%m/%d %H:%M:%S: ') + resp).encode())
+            self.wfile.flush()
         except Exception as ex:
             fct.log_exception(ex)
 
@@ -79,7 +81,7 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
         """ Callback on HTTP GET request """
         url_tokens = self.path.split('/')
         url_tokens_len = len(url_tokens)
-        fct.log(str(url_tokens))
+        #fct.log(str(url_tokens))
         if url_tokens_len > 1:
             api = url_tokens[1]
             if api == "api":
