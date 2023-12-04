@@ -95,7 +95,7 @@ def run():
                     alarm_timeout = 0
                     alarm_stopped = False
                     gpio.buzzer_on()
-                    fct.send_alert("Alerte ! Intrusion detectee : " + msg)
+                    fct.send_alert("Alerte ! Intrusion detectee : " + msg, with_call=True)
                 else:
                     gpio.buzzer_off()
         else:
