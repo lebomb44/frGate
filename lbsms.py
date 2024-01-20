@@ -160,6 +160,7 @@ class Sms(threading.Thread):
                 self.fd_port.flush()
         except Exception as ex:
             fct.log_exception(ex)
+            self.close()
 
 
     def config(self):
