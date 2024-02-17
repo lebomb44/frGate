@@ -19,7 +19,6 @@ alarm_is_enabled_by_hw = False
 alarm_triggered = False
 alarm_timeout = 0
 alarm_stopped = False
-alarm_status = dict()
 alarm_initial_status = dict()
 alarm_sum = False
 
@@ -35,8 +34,6 @@ def init():
     alarm_triggered = False
     alarm_timeout = 0
     alarm_stopped = False
-    alarm_status = dict()
-    alarm_initial_status = dict()
     alarm_sum = False
     gpio.buzzer_off()
     gpio.light_off()
@@ -47,7 +44,6 @@ def run():
     global alarm_triggered
     global alarm_timeout
     global alarm_stopped
-    global alarm_status
     global alarm_initial_status
     global alarm_sum
     """
@@ -55,11 +51,14 @@ def run():
     """
     if alarm_is_enabled_by_hw != gpio.rf_get():
         alarm_is_enabled_by_hw = gpio.rf_get()
-        if alarm_is_enabled_by_hw == True:
-            enable()
+        if alarm_is_enabled_by_hw is True:
+            if alarm_is_enabled is False:
+                enable()
         else:
-            disable()
+            if alarm_is_enabled is True:
+                disable()
     try:
+        alarm_status = dict()
         alarm_status["move0"] = gpio.move0_get()
         alarm_status["move1"] = gpio.move1_get()
         alarm_status["move2"] = gpio.move2_get()
