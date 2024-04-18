@@ -91,6 +91,7 @@ class Sms(threading.Thread):
                                 except Exception as ex:
                                     self.dict["signal_quality"] = 0
                                     fct.log_exception(ex)
+                        line = ""
                     if self.dict["nb_loop"] % 50000 == 0:
                         self.config()
                     if self.dict["nb_loop"] % 1000 == 0:
