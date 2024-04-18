@@ -142,7 +142,9 @@ class Sms(threading.Thread):
             fcntl.fcntl(fd_port, fcntl.F_SETFL, flag | os.O_NONBLOCK)
             self.dict["open_cnt"] += 1
             self.dict["nb_config"] = 0
+            self.dict["ok_date"] = "Unknown"
             self.dict["signal_quality"] = 0
+            self.dict["signal_quality_date"] = "Unknown"
         except Exception as ex:
             fct.log_exception(ex)
 
