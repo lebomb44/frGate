@@ -80,14 +80,14 @@ class Sms(threading.Thread):
                         self.read_iter = read_iter_
                     if line != "":
                         if "OK" in line:
-                            self.dict["ok_date"] = datetime.datetime.now()
+                            self.dict["ok_date"] = str(datetime.datetime.now())
                         line_array = line.split(" ")
                         #fct.log("DEBUG: line_array=" + str(line_array))
                         if len(line_array) == 2:
                             if line_array[0] == "+CSQ:":
                                 try:
                                     self.dict["signal_quality"] = int(round(float(line_array[1].replace(",","."))))
-                                    self.dict["signal_quality_date"] = datetime.datetime.now()
+                                    self.dict["signal_quality_date"] = str(datetime.datetime.now())
                                 except Exception as ex:
                                     self.dict["signal_quality"] = 0
                                     fct.log_exception(ex)
