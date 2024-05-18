@@ -30,13 +30,15 @@ def log_exception(ex, msg="ERROR Exception"):
     log(traceback.format_exc())
 
 
-def http_request(url):
+def http_request(url, timeout=1.0, silent=False):
     """ Do HTTP request to the URL """
     try:
-        log("URL call: " + url)
-        requests.get(url, timeout=1.0)
+        if silent is False:
+            log("URL call: " + url)
+        requests.get(url, timeout=timeout)
     except requests.exceptions.RequestException as ex:
-        log("ERROR http_request: " + str(ex))
+        if silent is False:
+            log("ERROR http_request: " + str(ex))
 
 
 def send_sms(msg):

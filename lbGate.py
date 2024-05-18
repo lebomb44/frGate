@@ -364,7 +364,7 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
 monitoring = Monitoring("Monitoring")
 httpserver = http.server.ThreadingHTTPServer(("", settings.HTTPD_PORT), CustomHandler)
 
-sms=lbsms.Sms("ttyUSB0")
+sms=lbsms.Sms("sms")
 fct.sms = sms
 
 def exit():

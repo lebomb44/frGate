@@ -139,7 +139,7 @@ class Sms(threading.Thread):
             self.fd_port = open(self.dict["port"], "rb+", buffering=0)
             fd_port = self.fd_port.fileno()
             flag = fcntl.fcntl(fd_port, fcntl.F_GETFL)
-            fcntl.fcntl(fd_port, fcntl.F_SETFL, flag | os.O_NONBLOCK)
+            fcntl.fcntl(fd_port, fcntl.F_SETFL, flag | os.O_NONBLOCK | os.O_NOCTTY)
             self.dict["open_cnt"] += 1
             self.dict["nb_config"] = 0
             self.dict["ok_date"] = "Unknown"

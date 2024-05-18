@@ -18,15 +18,18 @@ HTTPD_PORT = 8444
 MAX_NODE_ERRORS = 10000
 HOSTNAME = "Unknown"
 LIGHT_BEETLE_IS_ENABLED = False
+ZIGBEE_BLINK_IS_ENABLED = False
 ALARM_NAME = dict()
 
 def init():
     global HOSTNAME
     global LIGHT_BEETLE_IS_ENABLED
+    global ZIGBEE_BLINK_IS_ENABLED
     global ALARM_NAME
     if socket.gethostname() == "frdom":
         HOSTNAME = "Frenes"
         LIGHT_BEETLE_IS_ENABLED = False
+        ZIGBEE_BLINK_IS_ENABLED = False
         ALARM_NAME["move0"] = "NotUsed0"
         ALARM_NAME["move1"] = "NotUsed1"
         ALARM_NAME["move2"] = "Petit Salon"
@@ -37,7 +40,8 @@ def init():
         ALARM_NAME["move7"] = "Move Petit Salon"
     if socket.gethostname() == "btdom":
         HOSTNAME = "Bourdilot"
-        LIGHT_BEETLE_IS_ENABLED = True
+        LIGHT_BEETLE_IS_ENABLED = False
+        ZIGBEE_BLINK_IS_ENABLED = True
         ALARM_NAME["move0"] = "Move Bas"
         ALARM_NAME["move1"] = "Move Haut"
         ALARM_NAME["move2"] = "Avant"

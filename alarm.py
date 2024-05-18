@@ -13,6 +13,7 @@ import subprocess
 import settings
 import fct
 import gpio
+import myconfig
 
 alarm_is_enabled = False
 alarm_is_enabled_by_hw = False
@@ -115,6 +116,8 @@ def enable():
             subprocess.run("sudo -u jeedom ssh root@" + ip + " \"echo \\\"beetleTemp lightMode set 3\n\\\" > /dev/ttyACM0\"", shell=True, check=False, timeout=2.0)
         except:
             pass
+    if settings.ZIGBEE_BLINK_IS_ENABLED is True:
+        fct.http_request(myconfig.ZIGBEE_BLINK_ON)
     fct.send_alert("Alarme ON")
 
 
@@ -129,6 +132,8 @@ def disable():
             subprocess.run("sudo -u jeedom ssh root@" + ip + " \"echo \\\"beetleTemp lightMode set 0\n\\\" > /dev/ttyACM0\"", shell=True, check=False, timeout=2.0)
         except:
             pass
+    if settings.ZIGBEE_BLINK_IS_ENABLED is True:
+        fct.http_request(myconfig.ZIGBEE_BLINK_OFF)
     fct.send_alert("Alarme OFF")
 
 
@@ -173,4 +178,9 @@ def update_status():
                 subprocess.run("sudo -u jeedom ssh root@" + ip + " \"echo \\\"beetleTemp lightMode set 0\n\\\" > /dev/ttyACM0\"", shell=True, check=False, timeout=2.0)
         except:
             pass
+    if settings.ZIGBEE_BLINK_IS_ENABLED is True:
+        if alarm_is_enabled is True:
+            fct.http_request(myconfig.ZIGBEE_BLINK_ON, silent=True)
+        else:
+            fct.http_request(myconfig.ZIGBEE_BLINK_OFF, silent=True)
 
