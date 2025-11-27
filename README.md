@@ -152,3 +152,12 @@ parted -s /dev/sdc set 1 boot on
 mkfs.vfat /dev/sdc1
 mkfs.ext4 /dev/sdc2
 ```
+#######################################################
+# Remove SWAP
+```shell
+pi@btdom:~ $ sudo dphys-swapfile swapoff
+pi@btdom:~ $ sudo dphys-swapfile uninstall
+pi@btdom:~ $ sudo update-rc.d dphys-swapfile remove
+pi@btdom:~ $ sudo apt purge dphys-swapfile -y
+pi@btdom:~ $ sudo systemctl disable dphys-swapfile
+```
