@@ -45,7 +45,7 @@ class Sms(threading.Thread):
                 #fct.log("DEBUG: " + self.dict["node_name"] + " loop " + str(loop_nb))
                 if self.is_open() is False:
                     self.open()
-                    time.sleep(1.0)
+                    time.sleep(10.0)
                 if self.is_open() is True:
                     line = ""
                     cserial = " "
@@ -119,8 +119,7 @@ class Sms(threading.Thread):
         self.dict["is_loop_enabled"] = False
         time.sleep(1.0)
         fct.log("Closing " + self.dict["node_name"] + " node...")
-        if self.is_open() is True:
-            self.fd_port.close()
+        self.close()
 
 
     def is_open(self):
@@ -175,15 +174,16 @@ class Sms(threading.Thread):
     def config(self):
         """ Configure modem """
         try:
-            self.smsqueue.put_nowait('ATZ')
-            self.smsqueue.put_nowait('')
-            self.smsqueue.put_nowait('AT+CMGF=1')
-            self.smsqueue.put_nowait('')
-            self.smsqueue.put_nowait('AT+CSCA="+33695000695"')
-            self.smsqueue.put_nowait('')
-            self.smsqueue.put_nowait('AT+CSQ')
-            self.smsqueue.put_nowait('')
-            self.dict["nb_config"] += 1
+            if self.is_open() is True:
+                self.smsqueue.put_nowait('ATZ')
+                self.smsqueue.put_nowait('')
+                self.smsqueue.put_nowait('AT+CMGF=1')
+                self.smsqueue.put_nowait('')
+                self.smsqueue.put_nowait('AT+CSCA="+33695000695"')
+                self.smsqueue.put_nowait('')
+                self.smsqueue.put_nowait('AT+CSQ')
+                self.smsqueue.put_nowait('')
+                self.dict["nb_config"] += 1
         except Exception as ex:
             fct.log_exception(ex)
 
@@ -191,15 +191,16 @@ class Sms(threading.Thread):
     def sendto(self, phone, msg):
         """ Send SMS message to phone number """
         try:
-            msg = urllib.parse.unquote_plus(msg)
-            self.smsqueue.put_nowait('AT+CMGS="' + str(phone) + '"')
-            self.smsqueue.put_nowait('')
-            self.smsqueue.put_nowait(str(msg) + "\x1A")
-            self.smsqueue.put_nowait('')
-            self.smsqueue.put_nowait('')
-            self.smsqueue.put_nowait('')
-            self.smsqueue.put_nowait('')
-            self.smsqueue.put_nowait('')
+            if self.is_open() is True:
+                msg = urllib.parse.unquote_plus(msg)
+                self.smsqueue.put_nowait('AT+CMGS="' + str(phone) + '"')
+                self.smsqueue.put_nowait('')
+                self.smsqueue.put_nowait(str(msg) + "\x1A")
+                self.smsqueue.put_nowait('')
+                self.smsqueue.put_nowait('')
+                self.smsqueue.put_nowait('')
+                self.smsqueue.put_nowait('')
+                self.smsqueue.put_nowait('')
         except Exception as ex:
             fct.log_exception(ex)
 
@@ -207,12 +208,13 @@ class Sms(threading.Thread):
     def callto(self, phone):
         """ Send SMS message to phone number """
         try:
-            self.smsqueue.put_nowait('ATD' + str(phone) + ';')
-            for i in range(0,30):
+            if self.is_open() is True:
+                self.smsqueue.put_nowait('ATD' + str(phone) + ';')
+                for i in range(0,30):
+                    self.smsqueue.put_nowait('')
+                self.smsqueue.put_nowait('ATH')
                 self.smsqueue.put_nowait('')
-            self.smsqueue.put_nowait('ATH')
-            self.smsqueue.put_nowait('')
-            self.smsqueue.put_nowait('')
+                self.smsqueue.put_nowait('')
         except Exception as ex:
             fct.log_exception(ex)
 

@@ -1,0 +1,24 @@
+proc            /proc           proc    defaults          0       0
+PARTUUID=4a74af1d-01  /boot           vfat    defaults          0       2
+PARTUUID=4a74af1d-02  /               ext4    defaults,noatime  0       1
+tmpfs        /tmp                   tmpfs  defaults                                       0 0
+tmpfs        /tmp/jeedom            tmpfs  defaults,size=256M                                       0 0
+tmpfs        /tmp/root              tmpfs  defaults,size=100M                                       0 0
+tmpfs        /var/log               tmpfs  defaults,size=100M                                       0 0
+tmpfs        /var/log/nginx         tmpfs  defaults,size=100M,uid=root,gid=root,mode=755            0 0
+tmpfs        /var/lib/nginx/proxy   tmpfs  defaults,size=100M                                       0 0
+tmpfs        /var/lib/php/sessions  tmpfs  defaults,size=100M                                       0 0
+tmpfs        /var/www/html/log      tmpfs  defaults,size=100M                                       0 0
+/dev/sda1    /ssd                   btrfs  defaults,nofail,noatime     0       0
+/ssd/save/root/.npm                /root/.npm                none   nofail,noatime,x-systemd.device-timeout=9,bind
+/ssd/save/var/spool                /var/spool                none   nofail,noatime,x-systemd.device-timeout=9,bind
+/ssd/save/var/cache                /var/cache                none   nofail,noatime,x-systemd.device-timeout=9,bind
+/ssd/save/var/lib/apt              /var/lib/apt              none   nofail,noatime,x-systemd.device-timeout=9,bind
+/ssd/save/var/lib/logrotate        /var/lib/logrotate        none   nofail,noatime,x-systemd.device-timeout=9,bind
+/ssd/save/var/lib/mysql            /var/lib/mysql            none   nofail,noatime,x-systemd.device-timeout=9,bind
+/ssd/save/var/lib/ntp              /var/lib/ntp              none   nofail,noatime,x-systemd.device-timeout=9,bind
+/ssd/save/var/www/html/backup      /var/www/html/backup      none   nofail,noatime,x-systemd.device-timeout=9,bind
+/ssd/save/var/www/html/plugins/z2m /var/www/html/plugins/z2m none   nofail,noatime,x-systemd.device-timeout=9,bind
+tmpfs        /var/www/html/plugins/z2m/data/log              tmpfs  defaults,nofail,size=100M              0 0
+/ssd/save/etc/letsencrypt/live     /etc/letsencrypt/live     none   nofail,noatime,x-systemd.device-timeout=9,bind
+#/ssd/save/var/www/html             /var/www/html             none   nofail,noatime,x-systemd.device-timeout=9,bind
