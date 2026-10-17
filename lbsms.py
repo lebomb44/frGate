@@ -30,6 +30,11 @@ class Sms(threading.Thread):
         self.dict["nb_config"] = 0
         self.dict["nb_loop"] = 0
         self.dict["is_loop_enabled"] = True
+        self.dict["cmd_tx_cnt"] = 0
+        self.dict["cmd_rx_cnt"] = 0
+        self.dict["cmd_rx_ok_cnt"] = 0
+        self.dict["cmd_rx_signal_quality_cnt"] = 0
+        self.dict["config_enabled"] = True
         self.fd_port = io.IOBase()
         self.line = ""
         self.smsqueue = queue.Queue(1000)
@@ -45,7 +50,7 @@ class Sms(threading.Thread):
                 #fct.log("DEBUG: " + self.dict["node_name"] + " loop " + str(loop_nb))
                 if self.is_open() is False:
                     self.open()
-                    time.sleep(10.0)
+                    time.sleep(30.0)
                 if self.is_open() is True:
                     line = ""
                     cserial = " "
@@ -79,22 +84,27 @@ class Sms(threading.Thread):
                     if read_iter_ > self.read_iter:
                         self.read_iter = read_iter_
                     if line != "":
+                        self.dict["cmd_rx_cnt"] += 1
+                        #fct.log("DEBUG: line=" + str(line))
                         if "OK" in line:
+                            self.dict["cmd_rx_ok_cnt"] += 1
                             self.dict["ok_date"] = str(datetime.datetime.now())
-                        line_array = line.split(" ")
-                        #fct.log("DEBUG: line_array=" + str(line_array))
-                        if len(line_array) == 2:
-                            if line_array[0] == "+CSQ:":
-                                try:
-                                    self.dict["signal_quality"] = int(round(float(line_array[1].replace(",","."))))
-                                    self.dict["signal_quality_date"] = str(datetime.datetime.now())
-                                except Exception as ex:
-                                    self.dict["signal_quality"] = 0
-                                    fct.log_exception(ex)
+                        else:
+                            line_array = line.split(" ")
+                            #fct.log("DEBUG: line_array=" + str(line_array))
+                            if len(line_array) == 2:
+                                if line_array[0] == "+CSQ:":
+                                    try:
+                                        self.dict["signal_quality"] = int(round(float(line_array[1].replace(",","."))))
+                                        self.dict["cmd_rx_signal_quality_cnt"] += 1
+                                        self.dict["signal_quality_date"] = str(datetime.datetime.now())
+                                    except Exception as ex:
+                                        self.dict["signal_quality"] = 0
+                                        fct.log_exception(ex)
                         line = ""
-                    if self.dict["nb_loop"] % 50000 == 0:
+                    if self.dict["nb_loop"] % 5000 == 0:
                         self.config()
-                    if self.dict["nb_loop"] % 1000 == 0:
+                    if self.dict["nb_loop"] % 100 == 0:
                         if self.smsqueue.empty() is False:
                             try:
                                 msg = self.smsqueue.get()
@@ -110,7 +120,7 @@ class Sms(threading.Thread):
             self.dict["nb_loop"] += 1
             if self.dict["nb_loop"] >= 1000000:
                 self.dict["nb_loop"] = 0
-            time.sleep(0.001)
+            time.sleep(0.01)
 
 
     def stop(self):
@@ -119,7 +129,8 @@ class Sms(threading.Thread):
         self.dict["is_loop_enabled"] = False
         time.sleep(1.0)
         fct.log("Closing " + self.dict["node_name"] + " node...")
-        self.close()
+        if self.is_open() is True:
+            self.fd_port.close()
 
 
     def is_open(self):
@@ -144,6 +155,10 @@ class Sms(threading.Thread):
             self.dict["ok_date"] = "Unknown"
             self.dict["signal_quality"] = 0
             self.dict["signal_quality_date"] = "Unknown"
+            self.dict["cmd_tx_cnt"] = 0
+            self.dict["cmd_rx_cnt"] = 0
+            self.dict["cmd_rx_ok_cnt"] = 0
+            self.dict["cmd_rx_signal_quality_cnt"] = 0
         except Exception as ex:
             fct.log_exception(ex)
 
@@ -166,6 +181,7 @@ class Sms(threading.Thread):
                 self.fd_port.write((msg + "\r").encode('utf-8'))
                 #fct.log("DEBUG: Write serial to node " + self.dict["node_name"] + ": " + msg)
                 self.fd_port.flush()
+                self.dict["cmd_tx_cnt"] += 1
         except Exception as ex:
             fct.log_exception(ex)
             self.close()
@@ -174,7 +190,7 @@ class Sms(threading.Thread):
     def config(self):
         """ Configure modem """
         try:
-            if self.is_open() is True:
+            if self.dict["config_enabled"] is True:
                 self.smsqueue.put_nowait('ATZ')
                 self.smsqueue.put_nowait('')
                 self.smsqueue.put_nowait('AT+CMGF=1')
@@ -188,19 +204,36 @@ class Sms(threading.Thread):
             fct.log_exception(ex)
 
 
+    def config_enable(self):
+        """ Enable configure """
+        self.dict["config_enabled"] = True
+
+
+    def config_disable(self):
+        """ Disable configure """
+        self.dict["config_enabled"] = False
+
+
+    def sendcmd(self, cmd_str):
+        """ Send command """
+        try:
+            self.smsqueue.put_nowait(cmd_str)
+        except Exception as ex:
+            fct.log_exception(ex)
+
+
     def sendto(self, phone, msg):
         """ Send SMS message to phone number """
         try:
-            if self.is_open() is True:
-                msg = urllib.parse.unquote_plus(msg)
-                self.smsqueue.put_nowait('AT+CMGS="' + str(phone) + '"')
-                self.smsqueue.put_nowait('')
-                self.smsqueue.put_nowait(str(msg) + "\x1A")
-                self.smsqueue.put_nowait('')
-                self.smsqueue.put_nowait('')
-                self.smsqueue.put_nowait('')
-                self.smsqueue.put_nowait('')
-                self.smsqueue.put_nowait('')
+            msg = urllib.parse.unquote_plus(msg)
+            self.smsqueue.put_nowait('AT+CMGS="' + str(phone) + '"')
+            self.smsqueue.put_nowait('')
+            self.smsqueue.put_nowait(str(msg) + "\x1A")
+            self.smsqueue.put_nowait('')
+            self.smsqueue.put_nowait('')
+            self.smsqueue.put_nowait('')
+            self.smsqueue.put_nowait('')
+            self.smsqueue.put_nowait('')
         except Exception as ex:
             fct.log_exception(ex)
 
@@ -208,13 +241,16 @@ class Sms(threading.Thread):
     def callto(self, phone):
         """ Send SMS message to phone number """
         try:
-            if self.is_open() is True:
-                self.smsqueue.put_nowait('ATD' + str(phone) + ';')
-                for i in range(0,30):
-                    self.smsqueue.put_nowait('')
-                self.smsqueue.put_nowait('ATH')
+            self.smsqueue.put_nowait('ATD' + str(phone) + ';')
+            self.smsqueue.put_nowait('')
+            for i in range(0,20):
+                self.smsqueue.put_nowait('AT+CCMXPLAYWAV="e:/alerte_niepce.wav",1')
                 self.smsqueue.put_nowait('')
                 self.smsqueue.put_nowait('')
+            self.smsqueue.put_nowait('ATH')
+            self.smsqueue.put_nowait('')
+            self.smsqueue.put_nowait('AT+CHUP')
+            self.smsqueue.put_nowait('')
         except Exception as ex:
             fct.log_exception(ex)
 

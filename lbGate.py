@@ -11,6 +11,7 @@ import signal
 import sys
 import time
 import json
+import urllib.parse
 
 import gpio
 import settings
@@ -312,6 +313,25 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
                                     self.ok200("Sending SMS to all : " + url_tokens[4])
                                 else:
                                     self.error404("Bad number of argment for command fct.send_sms")
+                            elif url_tokens[3] == "config":
+                                if url_tokens_len == 5:
+                                    if url_tokens[4] == "enable":
+                                        sms.config_enable()
+                                        self.ok200("SMS config enabled")
+                                    elif url_tokens[4] == "disable":
+                                        sms.config_disable()
+                                        self.ok200("SMS config disabled")
+                                    else:
+                                        self.error404("Bad argument for command sms.config")
+                                elif url_tokens_len == 6:
+                                    if url_tokens[4] == "sendcmd":
+                                        cmd_str = urllib.parse.unquote(url_tokens[5])
+                                        sms.sendcmd(cmd_str)
+                                        self.ok200("SMS config cmd sent: " + cmd_str)
+                                    else:
+                                        self.error404("Bad argument for command sms.config")
+                                else:
+                                    self.error404("Bad number of argment for command sms.config")
                             elif url_tokens[3] == "json":
                                 try:
                                     self.ok200(json.dumps(sms.dict, sort_keys=True, indent=4), content_type="application/json")
@@ -346,7 +366,15 @@ class CustomHandler(http.server.BaseHTTPRequestHandler):
                                     fct.send_alert(url_tokens[4])
                                     self.ok200("Sending alert to all : " + url_tokens[4])
                                 else:
-                                    self.error404("Bad number of argment for command fct.send_alert")
+                                    if url_tokens_len == 6:
+                                        if url_tokens[5] == "call":
+                                            self.ok200("Sending alert with call to all : " + url_tokens[4])
+                                            fct.send_alert(url_tokens[4], True)
+                                        else:
+                                            self.ok200("Sending alert without call to all : " + url_tokens[4])
+                                            fct.send_alert(url_tokens[4], False)
+                                    else:
+                                        self.error404("Bad number of argment for command fct.send_alert")
                             else:
                                 self.error404("Bad command for node " + node + ": " + url_tokens[3])
                         else:
